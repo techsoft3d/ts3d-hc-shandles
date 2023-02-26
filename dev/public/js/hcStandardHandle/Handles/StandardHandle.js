@@ -38,4 +38,23 @@ export class StandardHandle {
     cameraUpdate(camera) {
 
     }
+
+    async handeMouseDown(event, selection) {
+        let viewer = this._group.getViewer();
+        this._startmatrix = await viewer.model.getNodeNetMatrix(this._nodeid);
+        this._startTargetMatrices = [];
+        for (let j = 0; j < this._group._targetNodes.length; j++) {
+            this._startTargetMatrices.push(viewer.model.getNodeMatrix(this._group._targetNodes[j]));
+        }
+
+        this._startPosition = selection.getPosition();
+        this._startPosition2D = event.getPosition();
+
+
+    }
+
+    async handeMouseMove(event) {
+
+    }
+
 }
