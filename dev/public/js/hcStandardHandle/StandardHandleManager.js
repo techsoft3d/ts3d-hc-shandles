@@ -62,8 +62,8 @@ export class StandardHandleManager {
     }
 
     async add(handleGroup, nodeid, center = null, rotation = null) {
-        await handleGroup.show(nodeid, center, rotation);
         this._handles.push(handleGroup);
+        await handleGroup.show(nodeid, center, rotation);
 
     }
 

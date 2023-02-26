@@ -1,7 +1,3 @@
-import { StandardHandleManager } from './StandardHandleManager.js';
-import * as utility from './utility.js';
-
-
 export class StandardHandleGroup {
     constructor(viewer, manager) {
         this._viewer = viewer;
@@ -44,7 +40,7 @@ export class StandardHandleGroup {
         let tmatrix2 = new Communicator.Matrix();
         tmatrix2.setTranslationComponent(center2.x, center2.y, center2.z);
         let b = Communicator.Matrix.multiply(startRot, tmatrix2);
-        hwv.model.setNodeMatrix(this._topNode, b);        
+        this._viewer.model.setNodeMatrix(this._topNode, b);        
         for (let i=0;i<this._handles.length;i++) {
             this._handles[i].update();
         }
@@ -70,8 +66,8 @@ export class StandardHandleGroup {
         tmatrix2.setTranslationComponent(this._targetCenter.x, this._targetCenter.y, this._targetCenter.z);
         let b = Communicator.Matrix.multiply(startRot, tmatrix2);
 
-        hwv.model.setNodeMatrix(this._topNode, b);
-        hwv.model.setNodeMatrix(this._topNode2, tmatrix2);
+        this._viewer.model.setNodeMatrix(this._topNode, b);
+        this._viewer.model.setNodeMatrix(this._topNode2, tmatrix2);
     }
 
     _calculateStartMatrix() {

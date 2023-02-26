@@ -15,19 +15,19 @@ export class AxisHandle extends StandardHandle {
         let viewer = this._group.getViewer();
 
         let offaxismatrix = new Communicator.Matrix();
-        if (axis) {
+        if (this._axis) {
             Communicator.Util.computeOffaxisRotation(this._axis, this._rotation, offaxismatrix);
         }
         this._nodeid = viewer.model.createNode(this._group._topNode, "");
-        myMeshInstanceData = new Communicator.MeshInstanceData(this._group.getManager()._arcmesh);
+        let myMeshInstanceData = new Communicator.MeshInstanceData(this._group.getManager()._arcmesh);
         await viewer.model.createMeshInstance(myMeshInstanceData, this._nodeid);
-        if (axis) {
+        if (this._axis) {
             viewer.model.setNodeMatrix(this._nodeid, offaxismatrix);
         }
-        viewer.model.setNodesFaceColor([this._nodeid], color);
+        viewer.model.setNodesFaceColor([this._nodeid], this._color);
 
-        super.show();
-        this.orientToCamera(camera);
+        await super.show();
+        await this.orientToCamera(viewer.view.getCamera());
     }
 
     cameraUpdate(camera) {
@@ -53,6 +53,6 @@ export class AxisHandle extends StandardHandle {
         Communicator.Util.computeOffaxisRotation(new Communicator.Point3(0, 0, 1), angle, offaxismatrix);
 
         let resmatrix = Communicator.Matrix.multiply(offaxismatrix, matx);
-        await viewer.model.setNodeMatrix(this._axis[i], resmatrix);
+        await viewer.model.setNodeMatrix(this._nodeid, resmatrix);
     }    
 }

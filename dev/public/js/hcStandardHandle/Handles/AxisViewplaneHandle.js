@@ -13,14 +13,14 @@ export class AxisViewplaneHandle extends StandardHandle {
 
 
         this._nodeid = viewer.model.createNode(this._group._topNode2, "");
-        myMeshInstanceData = new Communicator.MeshInstanceData(this._group.getManager()._circleMesh);
+        let myMeshInstanceData = new Communicator.MeshInstanceData(this._group.getManager()._circleMesh);
         await viewer.model.createMeshInstance(myMeshInstanceData, this._nodeid);
 
         let scalematrix = new Communicator.Matrix();
         scalematrix.setScaleComponent(1.2,1.2,1.2);
-        viewer.model.setNodeMatrix(nodeid, scalematrix);
+        viewer.model.setNodeMatrix(this._nodeid, scalematrix);
         viewer.model.setNodesFaceColor([this._nodeid], this._color);
-        super.show();
+        await super.show();
         viewer.model.setInstanceModifier(Communicator.InstanceModifier.ScreenOriented, [this._nodeid], true);  
     }  
 }

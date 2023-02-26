@@ -11,17 +11,17 @@ export class AxisTrackballHandle extends StandardHandle {
 
     async show() {
         let viewer = this._group.getViewer();
-        this._nodeid = viewer.model.createNode(this._topNode, "");
-        myMeshInstanceData = new Communicator.MeshInstanceData(this._group.getManager()._sphereMesh);
+        this._nodeid = viewer.model.createNode(this._group._topNode, "");
+        let myMeshInstanceData = new Communicator.MeshInstanceData(this._group.getManager()._sphereMesh);
         await viewer.model.createMeshInstance(myMeshInstanceData,  this._nodeid);
 
         let scalematrix = new Communicator.Matrix();
         scalematrix.setScaleComponent(0.15, 0.15, 0.15);
-        viewer.model.setNodeMatrix(nodeid, scalematrix);
+        viewer.model.setNodeMatrix(this._nodeid, scalematrix);
         viewer.model.setNodesFaceColor([ this._nodeid], this._color);
         viewer.model.setNodesOpacity([ this._nodeid],this._opacity);
 
-        super.show();
+        await super.show();
 
 
     }
