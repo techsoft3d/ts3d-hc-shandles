@@ -14,6 +14,11 @@ export class AxisTrackballHandle extends StandardHandle {
     async show() {
         let viewer = this._group.getViewer();
         this._nodeid = viewer.model.createNode(this._group._topNode, "");
+
+        if (!this._group.getManager()._sphereMesh) {
+            this._group.getManager()._sphereMesh  = await utility.createSphereMesh(viewer);   
+        }
+
         let myMeshInstanceData = new Communicator.MeshInstanceData(this._group.getManager()._sphereMesh);
         await viewer.model.createMeshInstance(myMeshInstanceData,  this._nodeid);
 

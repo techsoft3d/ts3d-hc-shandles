@@ -1,7 +1,3 @@
-import Quaternion from './quaternion.min.js';
-import * as utility from './utility.js';
-import { handleType } from './Handles/StandardHandle.js';
-
 export class StandardHandleOperator {
     constructor(viewer, manager) {
         this._viewer = viewer;

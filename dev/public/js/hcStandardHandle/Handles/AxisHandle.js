@@ -3,12 +3,20 @@ import * as utility from '../utility.js';
 
 
 export class AxisHandle extends StandardHandle {
+    
     constructor(group,axis,rot, color) {
         super(group);
         this._type = handleType.axis;
         this._axis = axis;
         this._rotation = rot;
         this._color = color;
+    }
+
+    async generateBaseGeometry() {
+        let outpoints = [];
+        Communicator.Util.generatePointsOnCircle(outpoints, new Communicator.Point3(0, 0, 0), 0.15, 64, new Communicator.Point3(0, 0, 1));
+        let meshData = utility.calculateTubeMesh(outpoints.splice(0,outpoints.length/2),0.0045,10);      
+        this._group.getManager()._arcmesh = await this._group.getViewer().model.createMesh(meshData);
     }
 
     async show() {
@@ -19,6 +27,12 @@ export class AxisHandle extends StandardHandle {
             Communicator.Util.computeOffaxisRotation(this._axis, this._rotation, offaxismatrix);
         }
         this._nodeid = viewer.model.createNode(this._group._topNode, "");
+
+
+        if (!this._group.getManager()._arcmesh) {
+            await this.generateBaseGeometry();
+        }
+        
         let myMeshInstanceData = new Communicator.MeshInstanceData(this._group.getManager()._arcmesh);
         await viewer.model.createMeshInstance(myMeshInstanceData, this._nodeid);
         if (this._axis) {

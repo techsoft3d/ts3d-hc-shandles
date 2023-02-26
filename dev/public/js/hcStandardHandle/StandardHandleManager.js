@@ -33,26 +33,9 @@ export class StandardHandleManager {
         this._viewer.overlayManager.setViewport(
             StandardHandleManager.overlayIndex, Communicator.OverlayAnchor.UpperLeftCorner, 0, Communicator.OverlayUnit.ProportionOfCanvas, 0, Communicator.OverlayUnit.ProportionOfCanvas,
             1, Communicator.OverlayUnit.ProportionOfCanvas, 1, Communicator.OverlayUnit.ProportionOfCanvas);
-        this._defineBaseGeometry();
     }
 
-    async _defineBaseGeometry() {
 
-        let outpoints = [];
-        Communicator.Util.generatePointsOnCircle(outpoints, new Communicator.Point3(0, 0, 0), 0.15, 64, new Communicator.Point3(0, 0, 1));
-
-        let meshData = utility.calculateTubeMesh(outpoints.splice(0,outpoints.length/2),0.0045,10);
-      
-        this._arcmesh = await this._viewer.model.createMesh(meshData);
-
-        this._sphereMesh  = await utility.createSphereMesh(this._viewer);
-
-        let outpoints2 = [];
-        Communicator.Util.generatePointsOnCircle(outpoints2, new Communicator.Point3(0, 0, 0), 0.15, 64, new Communicator.Point3(0, 0, 1));
-
-        let meshData2 = utility.calculateTubeMesh(outpoints2,0.0045,10);
-        this._circleMesh = await this._viewer.model.createMesh(meshData2);
-    }
 
     async create(nodeid, center = null, rotation = null) {
         let handle = new StandardHandle(this._viewer, this);

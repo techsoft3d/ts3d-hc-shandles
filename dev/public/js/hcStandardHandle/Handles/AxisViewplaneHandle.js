@@ -9,11 +9,25 @@ export class AxisViewplaneHandle extends StandardHandle {
         this._color = color;
     }
 
+    async generateBaseGeometry() {
+        let outpoints = [];
+        Communicator.Util.generatePointsOnCircle(outpoints, new Communicator.Point3(0, 0, 0), 0.15, 64, new Communicator.Point3(0, 0, 1));
+
+        let meshData = utility.calculateTubeMesh(outpoints,0.0045,10);
+        this._group.getManager()._circleMesh = await this._group.getViewer().model.createMesh(meshData);
+    }
+
     async show() {
         let viewer = this._group.getViewer();
 
 
         this._nodeid = viewer.model.createNode(this._group._topNode2, "");
+
+
+        if (!this._group.getManager()._circleMesh) {
+            await this.generateBaseGeometry();
+        }
+
         let myMeshInstanceData = new Communicator.MeshInstanceData(this._group.getManager()._circleMesh);
         await viewer.model.createMeshInstance(myMeshInstanceData, this._nodeid);
 
@@ -24,7 +38,6 @@ export class AxisViewplaneHandle extends StandardHandle {
         await super.show();
         viewer.model.setInstanceModifier(Communicator.InstanceModifier.ScreenOriented, [this._nodeid], true);
     }
-
 
     async handeMouseMove(event) {
         let viewer = this._group.getViewer();
