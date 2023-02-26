@@ -13,6 +13,10 @@ export class StandardHandle {
         this._nodeid = null;
     }
 
+    getType() {
+        return this._type;
+    }
+
 
     async show() {
 

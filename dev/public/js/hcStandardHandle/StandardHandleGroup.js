@@ -34,6 +34,14 @@ export class StandardHandleGroup {
         }
     }
 
+    getHandle(nodeid) {
+        for (let i=0;i<this._handles.length;i++) {
+            if (this._handles[i]._nodeid == nodeid) {
+                return this._handles[i];
+            }
+        }
+    }
+
     updateHandle() {
         let startRot = this._calculateStartMatrix();
         let center2 = this._targetCenter;
@@ -41,8 +49,9 @@ export class StandardHandleGroup {
         tmatrix2.setTranslationComponent(center2.x, center2.y, center2.z);
         let b = Communicator.Matrix.multiply(startRot, tmatrix2);
         this._viewer.model.setNodeMatrix(this._topNode, b);        
+        hwv.model.setNodeMatrix(this._topNode2, tmatrix2);
         for (let i=0;i<this._handles.length;i++) {
-            this._handles[i].update();
+            this._handles[i].update(this._viewer.view.getCamera());
         }
     }
 
@@ -56,6 +65,9 @@ export class StandardHandleGroup {
         else {
             this._targetCenter  = center.copy();
         }
+
+        this._targetCenterLocal = Communicator.Matrix.inverse(this._viewer.model.getNodeNetMatrix(this._targetNodes[0])).transform(this._targetCenter);
+
         this._extraRotation = rotation;
 
         this._topNode = this._viewer.model.createNode(this._manager._handlenode, "");

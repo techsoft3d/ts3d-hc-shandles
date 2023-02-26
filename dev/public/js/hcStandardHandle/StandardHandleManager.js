@@ -73,6 +73,24 @@ export class StandardHandleManager {
         this._handles = [];
     }
 
+    getHandleGroup(nodeid) {
+        for (let i = 0; i < this._handles.length; i++) {
+            if (this._handles[i]._topNode == nodeid || this._handles[i]._topNode2 == nodeid) {
+                return this._handles[i];
+            }
+        }
+
+    }
+
+    refreshAll(activeHandle) {
+        for (let i = 0; i < this._handles.length; i++) {
+            if (this._handles[i] != activeHandle) {
+                this._handles[i]._targetCenter = this._viewer.model.getNodeNetMatrix(this._handles[i]._targetNodes[0]).transform(this._handles[i]._targetCenterLocal);        
+                this._handles[i].updateHandle();
+            }
+
+        }
+    }
 }
 
 
