@@ -108,7 +108,9 @@ function showHandlesFromSelection() {
     }
     let offaxismatrix = new Communicator.Matrix();
     Communicator.Util.computeOffaxisRotation(new Communicator.Point3(0, 0, 1), 45, offaxismatrix);
-    myStandardHandleManager.create(nodeids);
+
+    let handleGroup = new shandle.AxisHandleGroup(hwv, myStandardHandleManager);
+    myStandardHandleManager.create(nodeids, handleGroup);
 }
 
 
