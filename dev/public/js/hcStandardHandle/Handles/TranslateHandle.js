@@ -30,7 +30,7 @@ export class TranslateHandle extends StandardHandle {
         this._nodeid = viewer.model.createNode(this._group._topNode, "");
 
 
-        if (!this._group.getManager()._arcmesh) {
+        if (!this._group.getManager()._arrowMesh) {
             await this.generateBaseGeometry();
         }
         

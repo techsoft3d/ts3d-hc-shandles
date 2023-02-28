@@ -303,3 +303,70 @@ export async function createPlaneMesh(viewer, offsetx,offsety,length) {
 
     return await viewer.model.createMesh(meshData);
 }
+
+export async function createCubeMesh(viewer, offset, scale) {
+    let  length = 0.5;
+    if (scale != undefined)
+        length = 0.5 * scale;
+    else
+        length = 0.5;
+
+
+    var meshData = new Communicator.MeshData();
+    meshData.setFaceWinding(Communicator.FaceWinding.None);
+   
+    var vertices = [
+        //front
+        -length, length, length, length, length, length, -length, -length, length,
+        length, length, length, length, -length, length, -length, -length, length,
+        //back
+        length, length, -length, -length, length, -length, -length, -length, -length,
+        length, length, -length, -length, -length, -length, length, -length, -length,
+        //top
+        -length, length, -length, length, length, -length, length, length, length,
+        -length, length, -length, length, length, length, -length, length, length,
+        //bottom
+        -length, -length, -length, length, -length, length, length, -length, -length,
+        -length, -length, -length, -length, -length, length, length, -length, length,
+        //left
+        -length, length, -length, -length, length, length, -length, -length, -length,
+        -length, length, length, -length, -length, length, -length, -length, -length,
+        //right
+        length, length, length, length, length, -length, length, -length, -length,
+        length, length, length, length, -length, -length, length, -length, length
+    ];
+    if (offset != undefined) {
+
+        for (var i = 0; i < vertices.length; i += 3) {
+            vertices[i] += offset.x;
+            vertices[i + 1] += offset.y;
+            vertices[i + 2] += offset.z;
+        }
+    }
+    var normals = [
+        //front
+        0, 0, 1, 0, 0, 1, 0, 0, 1,
+        0, 0, 1, 0, 0, 1, 0, 0, 1,
+        //back
+        0, 0, -1, 0, 0, -1, 0, 0, -1,
+        0, 0, -1, 0, 0, -1, 0, 0, -1,
+        //top
+        0, 1, 0, 0, 1, 0, 0, 1, 0,
+        0, 1, 0, 0, 1, 0, 0, 1, 0,
+        //bottom
+        0, -1, 0, 0, -1, 0, 0, -1, 0,
+        0, -1, 0, 0, -1, 0, 0, -1, 0,
+        //left
+        -1, 0, 0, -1, 0, 0, -1, 0, 0,
+        -1, 0, 0, -1, 0, 0, -1, 0, 0,
+        //right
+        1, 0, 0, 1, 0, 0, 1, 0, 0,
+        1, 0, 0, 1, 0, 0, 1, 0, 0
+    ];
+
+   
+  
+    meshData.addFaces(vertices, normals);
+    return await viewer.model.createMesh(meshData);
+}
+

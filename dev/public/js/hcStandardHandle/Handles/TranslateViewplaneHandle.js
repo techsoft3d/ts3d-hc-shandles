@@ -5,10 +5,9 @@ export class TranslateViewplaneHandle extends StandardHandle {
     
     constructor(group,color) {
         super(group);
-        this._type = handleType.translatePlane;
+        this._type = handleType.translateViewplane;
         this._color = color;
     }
-
    
     async show() {
         let viewer = this._group.getViewer();
