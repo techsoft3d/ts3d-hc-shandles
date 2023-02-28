@@ -75,9 +75,12 @@ export class TranslateHandle extends StandardHandle {
 
         for (let i = 0; i < this._startTargetMatrices.length; i++) {
 
+            let p1 = Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i]))).transform(this._startPosition);
+            let p2 = Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i]))).transform(pointonline);
+            let delta2 = Communicator.Point3.subtract(p2,p1);
           
             let transmatrix = new Communicator.Matrix();
-            transmatrix.setTranslationComponent(delta.x,delta.y,delta.z);
+            transmatrix.setTranslationComponent(delta2.x,delta2.y,delta2.z);
             viewer.model.setNodeMatrix(this._group._targetNodes[i], Communicator.Matrix.multiply(this._startTargetMatrices[i],transmatrix));
         }
         this._group._targetCenter = viewer.model.getNodeNetMatrix(this._group._targetNodes[0]).transform(this._group._targetCenterLocal);        
