@@ -3,11 +3,13 @@ import * as utility from '../utility.js';
 
 export class TranslatePlaneHandle extends StandardHandle {
     
-    constructor(group,axis, angle,color) {
+    constructor(group,axis, angle,color,axis2=null, angle2=null) {
         super(group);
         this._type = handleType.translatePlane;
         this._axis = axis;
         this._rotation = angle;
+        this._axis2 = axis2;
+        this._rotation2 = angle2;
         this._color = color;
     }
 
@@ -20,10 +22,18 @@ export class TranslatePlaneHandle extends StandardHandle {
     async show() {
         let viewer = this._group.getViewer();
 
-        let offaxismatrix = new Communicator.Matrix();
+        let offaxismatrix1 = new Communicator.Matrix();
+        let offaxismatrix2 = new Communicator.Matrix();
         if (this._axis) {
-            Communicator.Util.computeOffaxisRotation(this._axis, this._rotation, offaxismatrix);
+            Communicator.Util.computeOffaxisRotation(this._axis, this._rotation, offaxismatrix1);
         }
+        if (this._axis2) {
+            Communicator.Util.computeOffaxisRotation(this._axis2, this._rotation2, offaxismatrix2);
+            
+        }
+
+        let offaxismatrix = Communicator.Matrix.multiply(offaxismatrix1,offaxismatrix2);
+        
         this._nodeid = viewer.model.createNode(this._group._topNode, "");
 
 

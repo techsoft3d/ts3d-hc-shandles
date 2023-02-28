@@ -13,7 +13,7 @@ export class ScaleHandleGroup extends StandardHandleGroup {
 
         this._handles.push(new ScaleHandle(this,null,0,new Communicator.Color(255,0,0)));
         this._handles.push(new ScaleHandle(this,new Communicator.Point3(0,1,0),90,new Communicator.Color(0,255,0)));
-        this._handles.push(new ScaleHandle(this,new Communicator.Point3(1,0,0),90,new Communicator.Color(0,0,255)));
+        this._handles.push(new ScaleHandle(this,new Communicator.Point3(1,0,0),-90,new Communicator.Color(0,0,255)));
 
         for (let i = 0; i < this._handles.length; i++) {
             await this._handles[i].show();

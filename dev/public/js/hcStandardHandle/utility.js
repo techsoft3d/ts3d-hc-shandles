@@ -305,7 +305,7 @@ export async function createPlaneMesh(viewer, offsetx,offsety,length) {
 }
 
 export async function createCubeMesh(viewer, offset, scale) {
-    let  length = 0.5;
+    let  length;
     if (scale != undefined)
         length = 0.5 * scale;
     else

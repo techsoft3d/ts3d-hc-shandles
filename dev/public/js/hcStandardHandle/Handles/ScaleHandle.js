@@ -46,7 +46,7 @@ export class ScaleHandle extends StandardHandle {
 
         myMeshInstanceData = new Communicator.MeshInstanceData(this._group.getManager()._cubeMesh2);
         await viewer.model.createMeshInstance(myMeshInstanceData, this._nodeid);
-        
+
 
         if (this._axis) {
             viewer.model.setNodeMatrix(this._nodeid, offaxismatrix);
@@ -57,47 +57,49 @@ export class ScaleHandle extends StandardHandle {
     }
 
 
-    async handeMouseMove(event) {
+   async handeMouseMove(event) {
         let viewer = this._group.getViewer();
         let newpos = new Communicator.Point3(0,0,0);
-        let newnormal = new Communicator.Point3(0,0,1);
+        let newnormal = new Communicator.Point3(0,1,0);
         utility.rotatePointAndNormal(this._startmatrix, newpos, newnormal);
 
-        let cameraplane = utility.getCameraPlane(viewer,this._startPosition);
+        let rplane = Communicator.Plane.createFromPointAndNormal(newpos, newnormal);
       
         let ray = viewer.view.raycastFromPoint(event.getPosition());                
         let planeIntersection = new Communicator.Point3();
-        cameraplane.intersectsRay(ray, planeIntersection);
+        rplane.intersectsRay(ray, planeIntersection);
 
+        let newpos2 = new Communicator.Point3(0,0,0);
+        let newnormal2 = new Communicator.Point3(0,0,1);
+        utility.rotatePointAndNormal(this._startmatrix, newpos2, newnormal2);
+        let pointonline = utility.nearestPointOnLine(newpos2,newnormal2,planeIntersection);
+        let spos = utility.nearestPointOnLine(newpos2,newnormal2,this._startPosition);
 
-        let rplane = Communicator.Plane.createFromPointAndNormal(newpos, newnormal);
-        let adist = Math.abs(Communicator.Util.computeAngleBetweenVector(newnormal, cameraplane.normal));
-
-        let out = new Communicator.Point3();
-        if (adist > 80 && adist < 100) {
-            out = utility.closestPointOnPlane(rplane, planeIntersection);
-        }
-        else {
-
-            let ray = viewer.view.raycastFromPoint(event.getPosition());
-            let cameraplane = Communicator.Plane.createFromPointAndNormal(newpos, newnormal);
-            cameraplane.intersectsRay(ray, out);
-        }
-
-        let angle = utility.signedAngleFromPoint(this._startPosition, out,newnormal,newpos);
       
+        pointonline = utility.getClosestPoint(viewer,newpos2, newnormal2, event.getPosition());
+
+        let delta = Communicator.Point3.subtract(pointonline,spos);
+        let d = delta.length()/100;
+
+        let smat = new Communicator.Matrix();    
+        smat.setScaleComponent(1+newnormal2.x*d,1+newnormal2.y*d,1+newnormal2.z*d);
+
+
+//        ViewerUtility.createDebugCube(viewer,planeIntersection,1,undefined,true);
+
         for (let i = 0; i < this._startTargetMatrices.length; i++) {
 
-            let newnormal2 = utility.rotateNormal(Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i]))),newnormal);
-          
-            let offaxismatrix = new Communicator.Matrix();
-            Communicator.Util.computeOffaxisRotation(newnormal2, angle, offaxismatrix);    
+            let newnormal3 = utility.rotateNormal(Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i]))),newnormal2);
+            let smat = new Communicator.Matrix();    
+            smat.setScaleComponent(1+newnormal3.x*d,1+newnormal3.y*d,1+newnormal3.z*d);
             let center = Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i]))).transform(this._group._targetCenter);    
+            viewer.model.setNodeMatrix(this._group._targetNodes[i], utility.performSubnodeRotation(center,this._startTargetMatrices[i],smat));
 
-            viewer.model.setNodeMatrix(this._group._targetNodes[i], utility.performSubnodeRotation(center,this._startTargetMatrices[i],offaxismatrix));
         }
+    //    this._group._targetCenter = viewer.model.getNodeNetMatrix(this._group._targetNodes[0]).transform(this._group._targetCenterLocal);        
 
-        this._group.updateHandle();
+      //  this._group.updateHandle();
+
 
     }
 

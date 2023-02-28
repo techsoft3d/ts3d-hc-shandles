@@ -27,6 +27,7 @@ export class TranslateHandle extends StandardHandle {
         if (this._axis) {
             Communicator.Util.computeOffaxisRotation(this._axis, this._rotation, offaxismatrix);
         }
+        
         this._nodeid = viewer.model.createNode(this._group._topNode, "");
 
 
