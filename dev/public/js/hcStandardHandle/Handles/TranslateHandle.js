@@ -54,6 +54,8 @@ export class TranslateHandle extends StandardHandle {
         let newnormal = new Communicator.Point3(0,1,0);
         utility.rotatePointAndNormal(this._startmatrix, newpos, newnormal);
 
+
+
         let rplane = Communicator.Plane.createFromPointAndNormal(newpos, newnormal);
       
         let ray = viewer.view.raycastFromPoint(event.getPosition());                
@@ -64,18 +66,19 @@ export class TranslateHandle extends StandardHandle {
         let newnormal2 = new Communicator.Point3(0,0,1);
         utility.rotatePointAndNormal(this._startmatrix, newpos2, newnormal2);
         let pointonline = utility.nearestPointOnLine(newpos2,newnormal2,planeIntersection);
+        let spos = utility.nearestPointOnLine(newpos2,newnormal2,this._startPosition);
 
       
         pointonline = utility.getClosestPoint(viewer,newpos2, newnormal2, event.getPosition());
 
-        let delta = Communicator.Point3.subtract(pointonline,this._startPosition);
+        let delta = Communicator.Point3.subtract(pointonline,spos);
         ViewerUtility.createDebugCube(viewer,pointonline,1,undefined,true);
 //        ViewerUtility.createDebugCube(viewer,planeIntersection,1,undefined,true);
 
 
         for (let i = 0; i < this._startTargetMatrices.length; i++) {
 
-            let p1 = Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i]))).transform(this._startPosition);
+            let p1 = Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i]))).transform(spos);
             let p2 = Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i]))).transform(pointonline);
             let delta2 = Communicator.Point3.subtract(p2,p1);
           
