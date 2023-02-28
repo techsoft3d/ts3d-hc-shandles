@@ -54,18 +54,14 @@ export class TranslateHandle extends StandardHandle {
         let rplane = Communicator.Plane.createFromPointAndNormal(newpos, newnormal);
       
         let ray = viewer.view.raycastFromPoint(event.getPosition());                
-        let planeIntersection = new Communicator.Point3();
-        rplane.intersectsRay(ray, planeIntersection);
 
         let newpos2 = new Communicator.Point3(0,0,0);
         let newnormal2 = new Communicator.Point3(0,0,1);
         utility.rotatePointAndNormal(this._startmatrix, newpos2, newnormal2);
-        let pointonline = utility.nearestPointOnLine(newpos2,newnormal2,planeIntersection);
-        let spos = utility.nearestPointOnLine(newpos2,newnormal2,this._startPosition);
-      
-        pointonline = utility.getClosestPoint(viewer,newpos2, newnormal2, event.getPosition());
+        let spos = utility.nearestPointOnLine(newpos2,newnormal2,this._startPosition);      
+        
+        let pointonline = utility.getClosestPoint(viewer,newpos2, newnormal2, event.getPosition());
 
-//        ViewerUtility.createDebugCube(viewer,planeIntersection,1,undefined,true);
 
         for (let i = 0; i < this._startTargetMatrices.length; i++) {
 

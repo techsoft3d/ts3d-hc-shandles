@@ -100,6 +100,15 @@ export function performSubnodeRotation(center, startmatrix, rotmatrix) {
     return Communicator.Matrix.multiply(resmatrix2, tmatrix);
 }
 
+
+
+export function performSubnodeRotation2(center, startmatrix, rotmatrix) {
+    let tmatrix = createTranslationMatrix(center);
+    let resmatrix1 = Communicator.Matrix.multiply(Communicator.Matrix.inverse(tmatrix),rotmatrix);
+    let resmatrix2 = Communicator.Matrix.multiply(resmatrix1, tmatrix);
+    return Communicator.Matrix.multiply(resmatrix2, startmatrix);
+}
+
 export function rotateNormal(matrix, normal) {
 
     let newpos = matrix.transform(new Communicator.Point3(0, 0, 0));

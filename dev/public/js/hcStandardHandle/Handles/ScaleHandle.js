@@ -72,11 +72,9 @@ export class ScaleHandle extends StandardHandle {
         let newpos2 = new Communicator.Point3(0,0,0);
         let newnormal2 = new Communicator.Point3(0,0,1);
         utility.rotatePointAndNormal(this._startmatrix, newpos2, newnormal2);
-        let pointonline = utility.nearestPointOnLine(newpos2,newnormal2,planeIntersection);
-        let spos = utility.nearestPointOnLine(newpos2,newnormal2,this._startPosition);
-
-      
-        pointonline = utility.getClosestPoint(viewer,newpos2, newnormal2, event.getPosition());
+        
+        let spos = utility.nearestPointOnLine(newpos2,newnormal2,this._startPosition);      
+        let pointonline = utility.getClosestPoint(viewer,newpos2, newnormal2, event.getPosition());
 
         let delta = Communicator.Point3.subtract(pointonline,spos);
         let d = delta.length()/100;
@@ -84,23 +82,16 @@ export class ScaleHandle extends StandardHandle {
         let smat = new Communicator.Matrix();    
         smat.setScaleComponent(1+newnormal2.x*d,1+newnormal2.y*d,1+newnormal2.z*d);
 
-
-//        ViewerUtility.createDebugCube(viewer,planeIntersection,1,undefined,true);
-
         for (let i = 0; i < this._startTargetMatrices.length; i++) {
 
-            let newnormal3 = utility.rotateNormal(Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i]))),newnormal2);
+            let newnormal3 = utility.rotateNormal(Communicator.Matrix.inverse(viewer.model.getNodeMatrix(hwv.model.getNodeParent(this._group._targetNodes[i]))),newnormal2);
+    
+            let newnormal4 = utility.rotateNormal(Communicator.Matrix.inverse(viewer.model.getNodeMatrix(this._group._targetNodes[i])),newnormal3);
             let smat = new Communicator.Matrix();    
-            smat.setScaleComponent(1+newnormal3.x*d,1+newnormal3.y*d,1+newnormal3.z*d);
+            smat.setScaleComponent(1+newnormal4.x*d,1+newnormal4.y*d,1+newnormal4.z*d);
             let center = Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i]))).transform(this._group._targetCenter);    
-            viewer.model.setNodeMatrix(this._group._targetNodes[i], utility.performSubnodeRotation(center,this._startTargetMatrices[i],smat));
+            viewer.model.setNodeMatrix(this._group._targetNodes[i], utility.performSubnodeRotation2(center,this._startTargetMatrices[i],smat));
 
         }
-    //    this._group._targetCenter = viewer.model.getNodeNetMatrix(this._group._targetNodes[0]).transform(this._group._targetCenterLocal);        
-
-      //  this._group.updateHandle();
-
-
     }
-
 }
