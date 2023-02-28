@@ -3,7 +3,8 @@ import { StandardHandleManager } from '../StandardHandleManager.js';
 export const handleType = {
     axis: 0,
     axisViewplane: 1,
-    axisTrackball: 2
+    axisTrackball: 2,
+    translate: 3
 };
 
 
@@ -26,14 +27,13 @@ export class StandardHandle {
             viewer.overlayManager.addNodes(StandardHandleManager.overlayIndex, [this._nodeid]);
             viewer.model.setInstanceModifier(Communicator.InstanceModifier.SuppressCameraScale, [this._nodeid], true);  
             viewer.model.setInstanceModifier(Communicator.InstanceModifier.DoNotLight, [this._nodeid], true); 
+            viewer.model.setInstanceModifier(Communicator.InstanceModifier.ExcludeBounding, [this._nodeid], true); 
         }
     }
-
 
     update() {
       
     }    
-
 
     cameraUpdate(camera) {
 
@@ -49,8 +49,6 @@ export class StandardHandle {
 
         this._startPosition = selection.getPosition();
         this._startPosition2D = event.getPosition();
-
-
     }
 
     async handeMouseMove(event) {

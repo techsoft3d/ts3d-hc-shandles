@@ -1,9 +1,7 @@
 import { StandardHandleGroup } from './StandardHandleGroup.js';
-import { AxisHandle } from './Handles/AxisHandle.js';
-import { AxisTrackballHandle } from './Handles/AxisTrackballHandle.js';
-import { AxisViewplaneHandle } from './Handles/AxisViewplaneHandle.js';
-
-import * as utility from './utility.js';
+import { AxisHandle } from '../Handles/AxisHandle.js';
+import { AxisTrackballHandle } from '../Handles/AxisTrackballHandle.js';
+import { AxisViewplaneHandle } from '../Handles/AxisViewplaneHandle.js';
 
 
 export class AxisHandleGroup extends StandardHandleGroup {

@@ -99,7 +99,7 @@ function createUILayout() {
 
 }
 
-function showHandlesFromSelection() {
+function showAxisHandlesFromSelection() {
     let nodeids = [];
     let sels = hwv.selectionManager.getResults();
                 
@@ -112,5 +112,21 @@ function showHandlesFromSelection() {
     let handleGroup = new shandle.AxisHandleGroup(hwv, myStandardHandleManager);
     myStandardHandleManager.add(handleGroup,nodeids);
 }
+
+
+function showTranslateHandlesFromSelection() {
+    let nodeids = [];
+    let sels = hwv.selectionManager.getResults();
+                
+    for (let i = 0; i < sels.length; i++) {
+        nodeids.push(sels[i].getNodeId());                            
+    }
+    let offaxismatrix = new Communicator.Matrix();
+    Communicator.Util.computeOffaxisRotation(new Communicator.Point3(0, 0, 1), 45, offaxismatrix);
+
+    let handleGroup = new shandle.TranslateHandleGroup(hwv, myStandardHandleManager);
+    myStandardHandleManager.add(handleGroup,nodeids);
+}
+
 
 

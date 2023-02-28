@@ -256,3 +256,27 @@ export function closestPointOnPlane(plane, point) {
     let distance = Communicator.Point3.dot(plane.normal, point) + plane.d;      
     return Communicator.Point3.subtract(point,new Communicator.Point3(distance * plane.normal.x, distance * plane.normal.y, distance * plane.normal.z));
 }
+
+
+export function nearestPointOnLine(linePnt, lineDir, pnt)
+{
+    lineDir.normalize();//this needs to be a unit vector
+    var v = Communicator.Point3.subtract(pnt,linePnt);
+    var d = Communicator.Point3.dot(v, lineDir);
+    var pol =  Communicator.Point3.add(linePnt,Communicator.Point3.scale(lineDir,d))
+    var delta = Communicator.Point3.subtract(pol,pnt);
+    return pol;
+}
+
+
+export function getClosestPoint(viewer,selectionPosition, normal, currentPosition) {
+    const p1 = selectionPosition.copy();
+    const p2 = selectionPosition.copy().add(normal);
+    const p3 = viewer.view.unprojectPoint(currentPosition, 0);
+    const p4 = viewer.view.unprojectPoint(currentPosition, 0.5);
+
+    if (p3 !== null && p4 !== null) {
+        return Communicator.Util.lineLineIntersect(p1, p2, p3, p4);
+    }
+    return null;
+}

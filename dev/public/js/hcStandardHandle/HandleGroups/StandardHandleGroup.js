@@ -43,6 +43,7 @@ export class StandardHandleGroup {
     }
 
     updateHandle() {
+
         let startRot = this._calculateStartMatrix();
         let center2 = this._targetCenter;
         let tmatrix2 = new Communicator.Matrix();
