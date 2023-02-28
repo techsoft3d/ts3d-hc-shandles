@@ -280,3 +280,26 @@ export function getClosestPoint(viewer,selectionPosition, normal, currentPositio
     }
     return null;
 }
+
+
+export async function createPlaneMesh(viewer, offsetx,offsety,length) {
+
+    var meshData = new Communicator.MeshData();
+    meshData.setFaceWinding(Communicator.FaceWinding.None);
+
+
+    let faces = [
+        -length + offsetx, length + offsety, 0, length + offsetx, length +offsety, 0, -length + offsetx, -length + offsety, 0,
+            length + offsetx, length + offsety, 0, length + offsetx, -length + + offsety, 0, -length + + offsetx, -length + offsety, 0
+    ];
+
+    var normals = [
+        //front
+        0, 0, 1, 0, 0, 1, 0, 0, 1,
+        0, 0, 1, 0, 0, 1, 0, 0, 1,
+    ];
+
+    meshData.addFaces(faces);
+
+    return await viewer.model.createMesh(meshData);
+}

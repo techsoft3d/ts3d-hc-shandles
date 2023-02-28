@@ -1,5 +1,6 @@
 import { StandardHandleGroup } from './StandardHandleGroup.js';
 import { TranslateHandle } from '../Handles/TranslateHandle.js';
+import { TranslatePlaneHandle } from '../Handles/TranslatePlaneHandle.js';
 
 
 export class TranslateHandleGroup extends StandardHandleGroup {
@@ -14,6 +15,10 @@ export class TranslateHandleGroup extends StandardHandleGroup {
         this._handles.push(new TranslateHandle(this,null,0,new Communicator.Color(255,0,0)));
         this._handles.push(new TranslateHandle(this,new Communicator.Point3(0,1,0),90,new Communicator.Color(0,255,0)));
         this._handles.push(new TranslateHandle(this,new Communicator.Point3(1,0,0),90,new Communicator.Color(0,0,255)));
+
+        this._handles.push(new TranslatePlaneHandle(this,null,0,new Communicator.Color(255,0,0)));
+         this._handles.push(new TranslatePlaneHandle(this,new Communicator.Point3(0,1,0),-90,new Communicator.Color(0,255,0)));
+        this._handles.push(new TranslatePlaneHandle(this,new Communicator.Point3(1,0,0),-90,new Communicator.Color(0,0,255)));
 
         for (let i = 0; i < this._handles.length; i++) {
             await this._handles[i].show();

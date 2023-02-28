@@ -4,7 +4,8 @@ export const handleType = {
     axis: 0,
     axisViewplane: 1,
     axisTrackball: 2,
-    translate: 3
+    translate: 3,
+    translatePlane: 3,
 };
 
 
