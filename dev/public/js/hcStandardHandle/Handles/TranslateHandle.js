@@ -16,16 +16,26 @@ export class TranslateHandle extends StandardHandle {
         outpoints.push(new Communicator.Point3(0, 0, 0));
         outpoints.push(new Communicator.Point3(0, 0, 0.15));
 
-        let meshData = utility.calculateTubeMesh(outpoints,0.0045,10);      
+//        let meshData = utility.calculateTubeMesh(outpoints,0.0045,10);      
+        let meshData = Communicator.Util.generateConeCylinderMeshData(0.0045, 10, 0.15, 0.0195, 0.03, 0.0)
         this._group.getManager()._arrowMesh = await this._group.getViewer().model.createMesh(meshData);
+        let meshData2 = Communicator.Util.generateConeCylinderMeshData(0.0, 10, 0.15, 0.0195, 0.03, 0.0)
+        this._group.getManager()._arrowMesh2 = await this._group.getViewer().model.createMesh(meshData2);
     }
 
     async show() {
         let viewer = this._group.getViewer();
 
         let offaxismatrix = new Communicator.Matrix();
+        let offaxismatrix2 = new Communicator.Matrix();
         if (this._axis) {
             Communicator.Util.computeOffaxisRotation(this._axis, this._rotation, offaxismatrix);
+            Communicator.Util.computeOffaxisRotation(this._axis, 180, offaxismatrix2);
+
+        }
+
+        if (!this._axis) {
+            Communicator.Util.computeOffaxisRotation(new Communicator.Point3(0,0,1), -180, offaxismatrix2);
         }
         
         this._nodeid = viewer.model.createNode(this._group._topNode, "");
@@ -40,6 +50,11 @@ export class TranslateHandle extends StandardHandle {
         if (this._axis) {
             viewer.model.setNodeMatrix(this._nodeid, offaxismatrix);
         }
+
+        let myMeshInstanceData2 = new Communicator.MeshInstanceData(this._group.getManager()._arrowMesh2);
+        let nodeid2 = await viewer.model.createMeshInstance(myMeshInstanceData2, this._nodeid);
+        viewer.model.setNodeMatrix(nodeid2, offaxismatrix2);
+        
         viewer.model.setNodesFaceColor([this._nodeid], this._color);
 
         await super.show();
@@ -56,7 +71,7 @@ export class TranslateHandle extends StandardHandle {
         let ray = viewer.view.raycastFromPoint(event.getPosition());                
 
         let newpos2 = new Communicator.Point3(0,0,0);
-        let newnormal2 = new Communicator.Point3(0,0,1);
+        let newnormal2 = new Communicator.Point3(0,1,0);
         utility.rotatePointAndNormal(this._startmatrix, newpos2, newnormal2);
         let spos = utility.nearestPointOnLine(newpos2,newnormal2,this._startPosition);      
         
