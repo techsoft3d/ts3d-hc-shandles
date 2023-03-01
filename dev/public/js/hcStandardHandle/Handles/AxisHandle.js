@@ -56,13 +56,29 @@ export class AxisHandle extends StandardHandle {
         let viewer = this._group.getViewer();
         let camPos = camera.getPosition();
         let matx = viewer.model.getNodeMatrix(this._nodeid);
+        
         let mat = viewer.model.getNodeNetMatrix(this._nodeid);
+
+    
+        let xc1 = utility.rotateNormal(mat, new Communicator.Point3(0, 0, 1));
+        console.log(xc1.x + " " + xc1.y + " " + xc1.z);
+        let xc2 = Communicator.Point3.subtract(viewer.view.getCamera().getTarget(), camPos).normalize();
+        console.log(xc2.x + " " + xc2.y + " " + xc2.z);
+
+
+        if (xc1.equalsWithTolerance(xc2, 0.01)) {
+            return;
+        }
+
         let matinverse = Communicator.Matrix.inverse(mat);
         let camPos2 = matinverse.transform(camPos);
         let plane = Communicator.Plane.createFromPointAndNormal(new Communicator.Point3(0, 0, 0), new Communicator.Point3(0, 0, 1));
         let res = utility.closestPointOnPlane(plane, camPos2);
         res.normalize();
         let angle = utility.signedAngle(new Communicator.Point3(-1, 0, 0), res, new Communicator.Point3(0, 0, 1));
+        if (isNaN(angle)) {
+            return;
+        }
         let offaxismatrix = new Communicator.Matrix();
         Communicator.Util.computeOffaxisRotation(new Communicator.Point3(0, 0, 1), angle, offaxismatrix);
 
