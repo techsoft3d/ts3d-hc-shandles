@@ -59,25 +59,29 @@ export class ScaleHandle extends StandardHandle {
 
    async handeMouseMove(event) {
         let viewer = this._group.getViewer();
-        let newpos = new Communicator.Point3(0,0,0);
-        let newnormal = new Communicator.Point3(0,1,0);
-        utility.rotatePointAndNormal(this._startmatrix, newpos, newnormal);
-
-        let rplane = Communicator.Plane.createFromPointAndNormal(newpos, newnormal);
-      
-        let ray = viewer.view.raycastFromPoint(event.getPosition());                
-        let planeIntersection = new Communicator.Point3();
-        rplane.intersectsRay(ray, planeIntersection);
-
+    
         let newpos2 = new Communicator.Point3(0,0,0);
         let newnormal2 = new Communicator.Point3(0,0,1);
         utility.rotatePointAndNormal(this._startmatrix, newpos2, newnormal2);
-        
-        let spos = utility.nearestPointOnLine(newpos2,newnormal2,this._startPosition);      
-        let pointonline = utility.getClosestPoint(viewer,newpos2, newnormal2, event.getPosition());
+        let spos = utility.nearestPointOnLine(newpos2,newnormal2,this._startPosition);              
 
+        let pointonline = utility.getClosestPoint(viewer,newpos2, newnormal2, event.getPosition());
+        let delta1 = Communicator.Point3.subtract(spos,newpos2).length();
+        let plane = Communicator.Plane.createFromPointAndNormal(spos, newnormal2);
         let delta = Communicator.Point3.subtract(pointonline,spos);
-        let d = delta.length()/100;
+        let d;
+
+        if (plane.determineSide(pointonline))
+        {
+            d = delta.length()/delta1/2;
+        }
+        else {
+            d = -delta.length()/delta1/2;
+            if (d<=-0.95) {
+                return;
+            }
+
+        }
 
         let smat = new Communicator.Matrix();    
         smat.setScaleComponent(1+newnormal2.x*d,1+newnormal2.y*d,1+newnormal2.z*d);
