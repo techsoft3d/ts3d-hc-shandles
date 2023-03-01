@@ -7,7 +7,8 @@ export const handleType = {
     translate: 3,
     translatePlane: 4,
     translateViewplane: 5,
-    scale: 6
+    scale: 6,
+    scaleAll: 7,
 };
 
 

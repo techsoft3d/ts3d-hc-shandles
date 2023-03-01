@@ -21,7 +21,7 @@ export class TranslateViewplaneHandle extends StandardHandle {
         await viewer.model.createMeshInstance(myMeshInstanceData,  this._nodeid);
 
         let scalematrix = new Communicator.Matrix();
-        scalematrix.setScaleComponent(0.01, 0.015, 0.015);
+        scalematrix.setScaleComponent(0.015, 0.015, 0.015);
         viewer.model.setNodeMatrix(this._nodeid, scalematrix);
         viewer.model.setNodesFaceColor([ this._nodeid], this._color);        
         await super.show();

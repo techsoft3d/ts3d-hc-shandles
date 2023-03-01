@@ -36,23 +36,15 @@ export class StandardHandleManager {
     }
 
 
-
-    async create(nodeid, center = null, rotation = null) {
-        let handle = new StandardHandle(this._viewer, this);
-        await handle.show(nodeid, center, rotation);
-        this._handles.push(handle);
-
-    }
-
     async add(handleGroup, nodeid, center = null, rotation = null) {
         this._handles.push(handleGroup);
         await handleGroup.show(nodeid, center, rotation);
 
     }
 
-    remove() {
-        this._viewer.model.deleteNode(this._handlenode);
-        this._handlenode = this._viewer.model.createNode(this._viewer.model.getRootNode(), "advancedHandles");
+    async remove() {
+        await this._viewer.model.deleteNode(this._handlenode);
+        this._handlenode = await this._viewer.model.createNode(this._viewer.model.getRootNode(), "advancedHandles");
         this._handles = [];
     }
 
@@ -72,6 +64,12 @@ export class StandardHandleManager {
                 this._handles[i].updateHandle();
             }
 
+        }
+    }
+
+    setRelative(relative) {
+        for (let i = 0; i < this._handles.length; i++) {
+            this._handles[i].setRelative(relative);           
         }
     }
 }

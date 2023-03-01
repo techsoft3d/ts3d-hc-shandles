@@ -6,7 +6,7 @@ export class ScaleHandle extends StandardHandle {
     
     constructor(group,axis,rot, color) {
         super(group);
-        this._type = handleType.axis;
+        this._type = handleType.scale;
         this._axis = axis;
         this._rotation = rot;
         this._color = color;
@@ -88,20 +88,31 @@ export class ScaleHandle extends StandardHandle {
 
         for (let i = 0; i < this._startTargetMatrices.length; i++) {
 
-            let newnormal3 = utility.rotateNormal(viewer.model.getNodeMatrix(this._nodeid),new Communicator.Point3(0,0,1));
+            let newnormal3;
+            let resmatrix3;
+            if (this._group._relative) {
+                newnormal3 = utility.rotateNormal(viewer.model.getNodeMatrix(this._nodeid),new Communicator.Point3(0,0,1));
+                let smat = new Communicator.Matrix();    
+                smat.setScaleComponent(1+newnormal3.x*d,1+newnormal3.y*d,1+newnormal3.z*d);
     
-//            let newnormal3 = utility.rotateNormal(Communicator.Matrix.inverse(viewer.model.getNodeMatrix(this._group._targetNodes[i])),newnormal2);
-//            let newnormal3 = utility.rotateNormal(Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i]))),newnormal5);
-            let smat = new Communicator.Matrix();    
+                let center = Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(this._group._targetNodes[i])).transform(this._group._targetCenter);   
+                
+                let tmatrix = utility.createTranslationMatrix(center);
+                let resmatrix1 = Communicator.Matrix.multiply(Communicator.Matrix.inverse(tmatrix),smat);
+                let resmatrix2 = Communicator.Matrix.multiply(resmatrix1, tmatrix);
+                resmatrix3 = Communicator.Matrix.multiply(resmatrix2,this._startTargetMatrices[i]);
 
-            smat.setScaleComponent(1+newnormal3.x*d,1+newnormal3.y*d,1+newnormal3.z*d);
 
-            let center = Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(this._group._targetNodes[i])).transform(this._group._targetCenter);   
-            
-            let tmatrix = utility.createTranslationMatrix(center);
-            let resmatrix1 = Communicator.Matrix.multiply(Communicator.Matrix.inverse(tmatrix),smat);
-            let resmatrix2 = Communicator.Matrix.multiply(resmatrix1, tmatrix);
-            let resmatrix3 = Communicator.Matrix.multiply(resmatrix2,this._startTargetMatrices[i]);
+            }
+            else {
+                newnormal3 = utility.rotateNormal(viewer.model.getNodeNetMatrix(this._nodeid),new Communicator.Point3(0,0,1));
+                let center = Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(this._group._targetNodes[i])).transform(this._group._targetCenter);   
+                
+                let tmatrix = utility.createTranslationMatrix(center);
+                let resmatrix1 = Communicator.Matrix.multiply(Communicator.Matrix.inverse(tmatrix),smat);
+                let resmatrix2 = Communicator.Matrix.multiply(resmatrix1, tmatrix);
+                resmatrix3 = Communicator.Matrix.multiply(this._startTargetMatrices[i],resmatrix2);
+            }           
 
             viewer.model.setNodeMatrix(this._group._targetNodes[i], resmatrix3);
 

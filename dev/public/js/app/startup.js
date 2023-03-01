@@ -99,49 +99,52 @@ function createUILayout() {
 
 }
 
-function showAxisHandlesFromSelection() {
+function gatherSelection() {
     let nodeids = [];
     let sels = hwv.selectionManager.getResults();
                 
     for (let i = 0; i < sels.length; i++) {
         nodeids.push(sels[i].getNodeId());                            
     }
+    return nodeids;
+}
+
+
+async function showAxisHandlesFromSelection() {
+    await myStandardHandleManager.remove();
     let offaxismatrix = new Communicator.Matrix();
     Communicator.Util.computeOffaxisRotation(new Communicator.Point3(0, 0, 1), 45, offaxismatrix);
-
     let handleGroup = new shandle.AxisHandleGroup(hwv, myStandardHandleManager);
-    myStandardHandleManager.add(handleGroup,nodeids);
+    handleGroup.setRelative(relative);
+    myStandardHandleManager.add(handleGroup,gatherSelection());
 }
 
 
-function showTranslateHandlesFromSelection() {
-    let nodeids = [];
-    let sels = hwv.selectionManager.getResults();
-                
-    for (let i = 0; i < sels.length; i++) {
-        nodeids.push(sels[i].getNodeId());                            
-    }
-    let offaxismatrix = new Communicator.Matrix();
-    Communicator.Util.computeOffaxisRotation(new Communicator.Point3(0, 0, 1), 45, offaxismatrix);
-
+async function showTranslateHandlesFromSelection() {
+    await myStandardHandleManager.remove();
     let handleGroup = new shandle.TranslateHandleGroup(hwv, myStandardHandleManager);
-    myStandardHandleManager.add(handleGroup,nodeids);
+    handleGroup.setRelative(relative);
+    myStandardHandleManager.add(handleGroup,gatherSelection());
 }
 
-
-function showScaleHandlesFromSelection() {
-    let nodeids = [];
-    let sels = hwv.selectionManager.getResults();
-                
-    for (let i = 0; i < sels.length; i++) {
-        nodeids.push(sels[i].getNodeId());                            
-    }
-    let offaxismatrix = new Communicator.Matrix();
-    Communicator.Util.computeOffaxisRotation(new Communicator.Point3(0, 0, 1), 45, offaxismatrix);
-
+async function showScaleHandlesFromSelection() {
+    await myStandardHandleManager.remove();
     let handleGroup = new shandle.ScaleHandleGroup(hwv, myStandardHandleManager);
-    myStandardHandleManager.add(handleGroup,nodeids);
+    handleGroup.setRelative(relative);
+    myStandardHandleManager.add(handleGroup,gatherSelection());
 }
 
 
+var relative = true;
 
+async function toggleRelative() {
+
+    relative = !relative;
+    await myStandardHandleManager.setRelative(relative);
+    if (relative) {
+        $("#relativebutton").css("background", "yellow");
+    } else {
+        $("#relativebutton").css("background", "white")
+
+    }
+}

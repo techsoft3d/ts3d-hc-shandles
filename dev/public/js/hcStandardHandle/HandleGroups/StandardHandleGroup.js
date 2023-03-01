@@ -21,7 +21,9 @@ export class StandardHandleGroup {
 
     setRelative(relative) {
         this._relative = relative;
-        this.updateHandle();
+        if (this._topNode) {
+            this.updateHandle();
+        }
     }
 
     getRelative() {

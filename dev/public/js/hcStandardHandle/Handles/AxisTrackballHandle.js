@@ -23,7 +23,7 @@ export class AxisTrackballHandle extends StandardHandle {
         await viewer.model.createMeshInstance(myMeshInstanceData,  this._nodeid);
 
         let scalematrix = new Communicator.Matrix();
-        scalematrix.setScaleComponent(0.15, 0.15, 0.15);
+        scalematrix.setScaleComponent(0.145, 0.145, 0.145);
         viewer.model.setNodeMatrix(this._nodeid, scalematrix);
         viewer.model.setNodesFaceColor([ this._nodeid], this._color);
         viewer.model.setNodesOpacity([ this._nodeid],this._opacity);
