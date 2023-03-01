@@ -25,6 +25,10 @@ async function msready() {
     let  StandardHandleOperatorHandle = hwv.operatorManager.registerCustomOperator(myStandardHandleOperator);
      hwv.operatorManager.push(StandardHandleOperatorHandle);
 
+     hwv.selectionManager.setSelectionFilter(function (nodeid) {
+        return nodeid;
+    });
+    
 }
 
 function continousCheck() {
