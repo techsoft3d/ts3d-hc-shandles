@@ -111,44 +111,57 @@ function gatherSelection() {
 
 
 async function showAxisHandlesFromSelection() {
-    await myStandardHandleManager.remove();
     let offaxismatrix = new Communicator.Matrix();
     Communicator.Util.computeOffaxisRotation(new Communicator.Point3(0, 0, 1), 45, offaxismatrix);
     let handleGroup = new shandle.AxisHandleGroup(hwv, myStandardHandleManager);
-    handleGroup.setRelative(relative);
-    myStandardHandleManager.add(handleGroup,gatherSelection());
+    addHandles(handleGroup);
 }
 
 
 async function showTranslateHandlesFromSelection() {
-    await myStandardHandleManager.remove();
     let handleGroup = new shandle.TranslateHandleGroup(hwv, myStandardHandleManager);
-    handleGroup.setRelative(relative);
-    myStandardHandleManager.add(handleGroup,gatherSelection());
+    addHandles(handleGroup);
 }
 
 async function showScaleHandlesFromSelection() {
-    await myStandardHandleManager.remove();
     let handleGroup = new shandle.ScaleHandleGroup(hwv, myStandardHandleManager);
-    handleGroup.setRelative(relative);
-    myStandardHandleManager.add(handleGroup,gatherSelection());
+    addHandles(handleGroup);
 }
 
+async function addHandles(handleGroup) {
+    await myStandardHandleManager.remove();
+    handleGroup.setRelative(relative);
+    if (useSelectionPosition) {
+        let sel = hwv.selectionManager.getFirst();
+        let result = await myStandardHandleManager.positionFromSelection(sel);
+        if (result) {
+            myStandardHandleManager.add(handleGroup,gatherSelection(),result.position, result.rotation);
+        }
+        else {
+            myStandardHandleManager.add(handleGroup,gatherSelection());
+        }
+    }
+    else {
+        myStandardHandleManager.add(handleGroup,gatherSelection());
+    }
+
+}
 
 var relative = true;
+var useSelectionPosition = false;
 
 async function toggleRelative() {
 
-    relative = !relative;
+    relative = document.getElementById('relativecheck').checked;
     await myStandardHandleManager.setRelative(relative);
-    if (relative) {
-        $("#relativebutton").css("background", "yellow");
-    } else {
-        $("#relativebutton").css("background", "white")
-
-    }
 }
 
 function refreshHandles() {
     myStandardHandleManager.refreshAll();
+}
+
+
+function toggleUseSelectionPosition() {
+    useSelectionPosition = document.getElementById('useselectionpositioncheck').checked;
+
 }

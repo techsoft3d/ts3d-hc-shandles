@@ -1,4 +1,3 @@
-import { StandardHandle } from './Handles/StandardHandle.js';
 import * as utility from './utility.js';
 
 export class StandardHandleManager {
@@ -76,6 +75,91 @@ export class StandardHandleManager {
             this._handles[i].setRelative(relative);           
         }
     }
+
+
+    _getArcCenter(selectionItem) {
+        let nodeId = selectionItem.getNodeId();
+        let lineEntity = selectionItem.getLineEntity();
+
+        if (nodeId !== null && lineEntity !== null) {
+            let model = this._viewer.model;
+
+            return model.getEdgeProperty(nodeId, lineEntity.getLineId()).then((subentityProperty) => {
+                if (subentityProperty instanceof Communicator.SubentityProperties.CircleElement) {
+                    const center = subentityProperty.origin;
+                    const matrix = model.getNodeNetMatrix(nodeId);
+                    matrix.transform(center, center);
+                    return { center: center, normal: subentityProperty.normal };
+                } else if (subentityProperty instanceof Communicator.SubentityProperties.LineElement) {
+                    const points = lineEntity.getPoints();
+                    if (points.length === 2) {
+                        return Communicator.Point3.add(points[1], points[0]).scale(0.5);
+                    }
+                }
+                return null;
+            });
+        }
+        return Promise.resolve(null);
+    }
+
+
+    async positionFromSelection(selectionItem) {
+
+        let nodeId = selectionItem.getNodeId();
+        let faceEntity = selectionItem.getFaceEntity();
+        let lineEntity = selectionItem.getLineEntity();
+        let position;
+        let axis;
+
+        if (lineEntity !== null || faceEntity !== null) {
+            if (lineEntity != null) {
+                let points = lineEntity.getPoints();
+                if (points.length === 2) {
+                    axis = Communicator.Point3.subtract(points[1], points[0]);
+
+                    let length_1 = axis.length();
+                    position = points[0].copy().add(axis.normalize().scale(length_1 / 2));
+
+                }
+                else {
+                    let pt = await this._getArcCenter(selectionItem);
+
+                    let mat = this._viewer.model.getNodeNetMatrix(nodeId);
+                    let p1 = mat.transform(new Communicator.Point3(0, 0, 0));
+                    let p2 = mat.transform(pt.normal);
+                    let cross = Communicator.Point3.cross(new Communicator.Point3(1, 0, 0), pt.normal);
+                    if (cross.length() < 0.00001)
+                        cross = Communicator.Point3.cross(new Communicator.Point3(0, 1, 0), pt.normal);
+
+                    let p3 = mat.transform(cross);
+                    axis = Communicator.Point3.subtract(p2, p1);
+                    position = pt.center;
+
+                }
+            }
+            else {
+                axis = faceEntity.getNormal();
+                position = faceEntity.getBounding().center().copy();
+            }
+
+
+            let rotation = utility.ComputeVectorToVectorRotationMatrix(new Communicator.Point3(1,0,0), axis);
+            return {position:position,rotation:rotation};
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 

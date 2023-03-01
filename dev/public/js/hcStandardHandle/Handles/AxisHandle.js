@@ -15,7 +15,7 @@ export class AxisHandle extends StandardHandle {
     async generateBaseGeometry() {
         let outpoints = [];
         Communicator.Util.generatePointsOnCircle(outpoints, new Communicator.Point3(0, 0, 0), 0.15, 64, new Communicator.Point3(0, 0, 1));
-        let meshData = utility.calculateTubeMesh(outpoints.splice(0,outpoints.length/2),0.0045,10);      
+        let meshData = utility.calculateTubeMesh(outpoints.splice(0,outpoints.length/2),0.0055,10);      
         this._group.getManager()._arcmesh = await this._group.getViewer().model.createMesh(meshData);
     }
 

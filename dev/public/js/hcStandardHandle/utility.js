@@ -379,3 +379,41 @@ export async function createCubeMesh(viewer, offset, scale) {
     return await viewer.model.createMesh(meshData);
 }
 
+export function ComputeVectorToVectorRotationMatrix(p1, p2) {
+    var outmatrix;
+    const EPSILON = 0.0000001;
+    p1.normalize();
+    p2.normalize();
+    let p3 = Communicator.Point3.cross(p1, p2);
+
+    let dprod = Communicator.Point3.dot(p1, p2);
+    let l = p3.length();
+
+    // Construct a perpendicular vector for anti-parallel case
+    if (l > -EPSILON && l < EPSILON) {
+        if (dprod < 0) {
+            if (p1.x < -EPSILON || p1.x > EPSILON) {
+                p3.x = p1.y;
+                p3.y = -p1.x;
+                p3.z = 0;
+            } else if (p1.y < -EPSILON || p1.y > EPSILON) {
+                p3.x = -p1.y;
+                p3.y = p1.x;
+                p3.z = 0;
+            } else if (p1.z < -EPSILON || p1.z > EPSILON) {
+                p3.x = -p1.z;
+                p3.z = p1.x;
+                p3.y = 0;
+            } else {
+                return new Communicator.Matrix();
+            }
+        } else {
+            return new Communicator.Matrix();
+        }
+    }
+
+    var ang = Math.atan2(l, dprod);
+    ang *= (180 / Math.PI);
+
+    return Communicator.Matrix.createFromOffAxisRotation(p3, ang);
+}
