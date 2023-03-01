@@ -116,6 +116,7 @@ export class AxisHandle extends StandardHandle {
 
         let angle = utility.signedAngleFromPoint(this._startPosition, out,newnormal,newpos);
       
+    
         for (let i = 0; i < this._startTargetMatrices.length; i++) {
 
             let newnormal2 = utility.rotateNormal(Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i]))),newnormal);

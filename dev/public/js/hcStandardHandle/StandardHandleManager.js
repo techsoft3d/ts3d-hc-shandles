@@ -1,3 +1,5 @@
+import { UndoManager,RotateUndo  } from './UndoManager.js';
+
 import * as utility from './utility.js';
 
 export class StandardHandleManager {
@@ -5,7 +7,9 @@ export class StandardHandleManager {
   
     constructor(viewer) {
         this._viewer = viewer;
+        this._undoManager = new UndoManager(viewer);
         this._handles = [];
+        this._undoManager = new UndoManager(viewer);
         this._handlenode = this._viewer.model.createNode(this._viewer.model.getRootNode(), "advancedHandles");
         var _this = this;
 
@@ -123,12 +127,10 @@ export class StandardHandleManager {
                 }
                 else {
                     let points = lineEntity.getPoints();
-                    //if (points.length === 2) {
                         axis = Communicator.Point3.subtract(points[1], points[0]);
 
                         let length_1 = axis.length();
                         position = points[0].copy().add(axis.normalize().scale(length_1 / 2));
-//                    }
                 }
             }
             else {
@@ -140,21 +142,22 @@ export class StandardHandleManager {
         }
     }
 
+    setUndoPoint(nodeids) {
+        let undoPoint = new RotateUndo();
+        undoPoint.gather(this._viewer, nodeids);
+        this._undoManager.setUndoPoint([undoPoint]);
+    }
 
-
-
-
-
-
-
-
-
-
-
-
+    undo() {
+        this._undoManager.undo();
+        this.refreshAll();
+    }
+    redo() {
+        this._undoManager.redo();
+        this.refreshAll();
+    }
+    
 }
 
-
-       
 StandardHandleManager.overlayIndex = 7;
 

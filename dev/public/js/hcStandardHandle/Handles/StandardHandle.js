@@ -50,7 +50,7 @@ export class StandardHandle {
         for (let j = 0; j < this._group._targetNodes.length; j++) {
             this._startTargetMatrices.push(viewer.model.getNodeMatrix(this._group._targetNodes[j]));
         }
-
+        await this._group.getManager().setUndoPoint(this._group._targetNodes);
         this._startPosition = selection.getPosition();
         this._startPosition2D = event.getPosition();
     }

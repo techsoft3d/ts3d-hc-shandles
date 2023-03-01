@@ -169,3 +169,12 @@ function toggleUseSelectionPosition() {
     useSelectionPosition = document.getElementById('useselectionpositioncheck').checked;
 
 }
+
+function undo() {
+    myStandardHandleManager.undo();
+}
+
+
+function redo() {
+    myStandardHandleManager.redo();
+}
