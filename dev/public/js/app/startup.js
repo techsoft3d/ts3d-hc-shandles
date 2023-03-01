@@ -148,3 +148,7 @@ async function toggleRelative() {
 
     }
 }
+
+function refreshHandles() {
+    myStandardHandleManager.refreshAll();
+}

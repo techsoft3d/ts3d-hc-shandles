@@ -57,7 +57,11 @@ export class StandardHandleManager {
 
     }
 
-    refreshAll(activeHandle) {
+    refreshAll(activeHandle = null) {
+        this._viewer.overlayManager.setCamera(
+            StandardHandleManager.overlayIndex,
+            this._viewer.view.getCamera()
+        );
         for (let i = 0; i < this._handles.length; i++) {
             if (this._handles[i] != activeHandle) {
                 this._handles[i]._targetCenter = this._viewer.model.getNodeNetMatrix(this._handles[i]._targetNodes[0]).transform(this._handles[i]._targetCenterLocal);        

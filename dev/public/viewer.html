@@ -1200,11 +1200,13 @@
     </div>
 
     <div id="settingsdiv" style="width:100%;height:100%;position:relative;font-size:12px">    
+      <h1>Settings</h1>
+      <input type="button" class="button-4" style="background:yellow" id="relativebutton" onclick='toggleRelative()' value="Relative"><br>
       <h1>Standard Handles</h1>
       <input type="button" class="button-4" id="lockplanebutton" onclick='showAxisHandlesFromSelection()' value="Rotate">
       <input type="button" class="button-4" id="lockplanebutton" onclick='showTranslateHandlesFromSelection()' value="Translate">
       <input type="button" class="button-4" id="lockplanebutton" onclick='showScaleHandlesFromSelection()' value="Scale"><br>
-      <input type="button" class="button-4" style="background:yellow" id="relativebutton" onclick='toggleRelative()' value="Relative">
+      <input type="button" class="button-4" id="lockplanebutton" onclick='refreshHandles()' value="Refresh"><br>
 
   </div>
  
