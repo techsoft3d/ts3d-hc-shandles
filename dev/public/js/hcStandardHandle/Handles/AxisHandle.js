@@ -55,21 +55,22 @@ export class AxisHandle extends StandardHandle {
     async orientToCamera(camera) {
         let viewer = this._group.getViewer();
         let camPos = camera.getPosition();
+        let camTar = camera.getTarget();
+        let dir = Communicator.Point3.subtract(camTar, camPos).normalize();
+        camPos.x = camTar.x - dir.x * 100000;
+        camPos.y = camTar.y - dir.y * 100000;
+        camPos.z = camTar.z - dir.z * 100000;
         let matx = viewer.model.getNodeMatrix(this._nodeid);
         
         let mat = viewer.model.getNodeNetMatrix(this._nodeid);
 
     
         let xc1 = utility.rotateNormal(mat, new Communicator.Point3(0, 0, 1));
-        console.log(xc1.x + " " + xc1.y + " " + xc1.z);
+//        console.log(xc1.x + " " + xc1.y + " " + xc1.z);
         let xc2 = Communicator.Point3.subtract(viewer.view.getCamera().getTarget(), camPos).normalize();
-        console.log(xc2.x + " " + xc2.y + " " + xc2.z);
-
-
         if (xc1.equalsWithTolerance(xc2, 0.01)) {
             return;
         }
-
         let matinverse = Communicator.Matrix.inverse(mat);
         let camPos2 = matinverse.transform(camPos);
         let plane = Communicator.Plane.createFromPointAndNormal(new Communicator.Point3(0, 0, 0), new Communicator.Point3(0, 0, 1));
