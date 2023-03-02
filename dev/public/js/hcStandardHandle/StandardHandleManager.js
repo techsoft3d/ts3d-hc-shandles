@@ -7,6 +7,7 @@ export class StandardHandleManager {
   
     constructor(viewer) {
         this._viewer = viewer;
+        this._translateSnapping = 0;
         this._undoManager = new UndoManager(viewer);
         this._handles = [];
         this._undoManager = new UndoManager(viewer);
@@ -156,6 +157,11 @@ export class StandardHandleManager {
         this._undoManager.redo();
         this.refreshAll();
     }
+
+    setTranslateSnapping(snapping) {
+        this._translateSnapping = snapping;
+    }
+
     
 }
 

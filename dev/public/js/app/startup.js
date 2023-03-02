@@ -178,3 +178,12 @@ function undo() {
 function redo() {
     myStandardHandleManager.redo();
 }
+function toggleEnableTranslateSnapping() {
+    $("#translateSnappingEdit").val();
+    if (document.getElementById('translatesnapcheck').checked) {
+        myStandardHandleManager.setTranslateSnapping(parseInt($("#translateSnappingEdit").val()));
+    }
+    else {
+        myStandardHandleManager.setTranslateSnapping(0);
+    }
+}

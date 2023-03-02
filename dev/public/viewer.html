@@ -1203,6 +1203,10 @@
       <h1>Settings</h1>
       <input type="checkbox" id="relativecheck" onclick="toggleRelative()" checked="checked">Relatve Handles<br>
       <input type="checkbox" id="useselectionpositioncheck" onclick="toggleUseSelectionPosition()">Place Handles at Selection Position<br>
+      <input type="checkbox" id="translatesnapcheck" onclick="toggleEnableTranslateSnapping()">Enable Translate Snap
+      <input type="text" id="translateSnappingEdit" onchange="toggleEnableTranslateSnapping()" style="width:50px;" value="10"><br>
+      <input type="checkbox" id="rotatesnapcheck" onclick="toggleEnableRotateSnapping()">Enable Rotate Snap
+      <input type="text" id="findSameNameEdit"  style="width:50px;" value="">
       <h1>Insert Handles</h1>
       <input type="button" class="button-4" id="lockplanebutton" onclick='showAxisHandlesFromSelection()' value="Rotate">
       <input type="button" class="button-4" id="lockplanebutton" onclick='showTranslateHandlesFromSelection()' value="Translate">

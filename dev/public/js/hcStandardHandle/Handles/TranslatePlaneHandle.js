@@ -75,9 +75,14 @@ export class TranslatePlaneHandle extends StandardHandle {
                 let delta2 = Communicator.Point3.subtract(p2,p1);
                 let transmatrix = new Communicator.Matrix();
     
-                delta2.x = Math.round(delta2.x/10)*10;
-                delta2.y = Math.round(delta2.y/10)*10;
-                delta2.z = Math.round(delta2.z/10)*10;
+               
+                if (this._group.getManager()._translateSnapping) {
+                    let snap = this._group.getManager()._translateSnapping;
+                    delta2.x = Math.round(delta2.x/snap)*snap;
+                    delta2.y = Math.round(delta2.y/snap)*snap;
+                    delta2.z = Math.round(delta2.z/snap)*snap;
+                }
+                
                 transmatrix.setTranslationComponent(delta2.x,delta2.y,delta2.z);                
                 let netmatrix = Communicator.Matrix.multiply(this._startTargetMatrices[0],viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i])));
                 before =netmatrix.transform(new Communicator.Point3(0,0,0));
