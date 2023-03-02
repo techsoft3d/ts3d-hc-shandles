@@ -69,8 +69,6 @@ export class TranslatePlaneHandle extends StandardHandle {
         let before;
         let after;
         for (let i = 0; i < this._startTargetMatrices.length; i++) {
-
-
             if (i == 0) {
                 let p1 = Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i]))).transform(this._startPosition);
                 let p2 = Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i]))).transform(planeIntersection);
@@ -81,15 +79,10 @@ export class TranslatePlaneHandle extends StandardHandle {
                 delta2.y = Math.round(delta2.y/10)*10;
                 delta2.z = Math.round(delta2.z/10)*10;
                 transmatrix.setTranslationComponent(delta2.x,delta2.y,delta2.z);                
-                let netmatrix = Communicator.Matrix.multiply(viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i])), this._startTargetMatrices[0]);
+                let netmatrix = Communicator.Matrix.multiply(this._startTargetMatrices[0],viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i])));
                 before =netmatrix.transform(new Communicator.Point3(0,0,0));
                 viewer.model.setNodeMatrix(this._group._targetNodes[i], Communicator.Matrix.multiply(this._startTargetMatrices[i],transmatrix));
                 after = hwv.model.getNodeNetMatrix(this._group._targetNodes[i]).transform(new Communicator.Point3(0,0,0));
-//                lfirst = Communicator.Point3.subtract(after,before);
-                ViewerUtility.createDebugCube(viewer,before,1,new Communicator.Color(0,0,255),true);
-
-                ViewerUtility.createDebugCube(viewer,after,1,undefined,true);
-
             }
             else {
                 let invp = Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i])));
