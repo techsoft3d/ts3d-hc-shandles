@@ -77,12 +77,11 @@ export class TranslateHandle extends StandardHandle {
         
         let pointonline = utility.getClosestPoint(viewer,newpos2, newnormal2, event.getPosition());
 
-
         let before;
         let after;
         for (let i = 0; i < this._startTargetMatrices.length; i++) {
             if (i == 0) {
-                let p1 = Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i]))).transform(this._startPosition);
+                let p1 = Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i]))).transform(spos);
                 let p2 = Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i]))).transform(pointonline);
                 let delta2 = Communicator.Point3.subtract(p2,p1);
                 let transmatrix = new Communicator.Matrix();
@@ -115,8 +114,6 @@ export class TranslateHandle extends StandardHandle {
         this._group._targetCenter = viewer.model.getNodeNetMatrix(this._group._targetNodes[0]).transform(this._group._targetCenterLocal);        
 
         this._group.updateHandle();
-
-
     }
 
 }

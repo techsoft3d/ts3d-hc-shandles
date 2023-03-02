@@ -82,31 +82,16 @@ export function calculateTubeMesh(allPoints, thickness, tess) {
         lastPoints = outpoints;
     }
 
-    // if (this._smoothShading) {
-    //     normals = this._averageNormals(faces);
-    // }
-
     meshData.addFaces(faces, normals);
     return meshData;
 
 }
-
-
 
 export function performSubnodeRotation(center, startmatrix, rotmatrix) {
     let tmatrix = createTranslationMatrix(center);
     let resmatrix1 = Communicator.Matrix.multiply(startmatrix, Communicator.Matrix.inverse(tmatrix));
     let resmatrix2 = Communicator.Matrix.multiply(resmatrix1, rotmatrix);
     return Communicator.Matrix.multiply(resmatrix2, tmatrix);
-}
-
-
-
-export function performSubnodeRotation2(center, startmatrix, rotmatrix) {
-    let tmatrix = createTranslationMatrix(center);
-    let resmatrix1 = Communicator.Matrix.multiply(Communicator.Matrix.inverse(tmatrix),rotmatrix);
-    let resmatrix2 = Communicator.Matrix.multiply(resmatrix1, tmatrix);
-    return Communicator.Matrix.multiply(resmatrix2, startmatrix);
 }
 
 export function rotateNormal(matrix, normal) {
@@ -373,14 +358,11 @@ export async function createCubeMesh(viewer, offset, scale) {
         1, 0, 0, 1, 0, 0, 1, 0, 0
     ];
 
-   
-  
     meshData.addFaces(vertices, normals);
     return await viewer.model.createMesh(meshData);
 }
 
 export function ComputeVectorToVectorRotationMatrix(p1, p2) {
-    var outmatrix;
     const EPSILON = 0.0000001;
     p1.normalize();
     p2.normalize();
