@@ -63,8 +63,6 @@ export class UndoManager {
             for (let i=0;i<this.undoStack[this.undoPointer].length;i++)
                 this.undoStack[this.undoPointer][i].do(this._viewer);
             }
-
-    
     }
 
     redo() {
