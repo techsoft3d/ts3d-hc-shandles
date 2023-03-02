@@ -116,6 +116,9 @@ export class AxisHandle extends StandardHandle {
 
         let angle = utility.signedAngleFromPoint(this._startPosition, out,newnormal,newpos);
       
+        if (this._group.getManager()._rotateSnapping) {
+            angle = Math.round(angle/this._group.getManager()._rotateSnapping) * this._group.getManager()._rotateSnapping;
+        }
     
         for (let i = 0; i < this._startTargetMatrices.length; i++) {
 

@@ -152,11 +152,20 @@ function redo() {
     myStandardHandleManager.redo();
 }
 function toggleEnableTranslateSnapping() {
-    $("#translateSnappingEdit").val();
     if (document.getElementById('translatesnapcheck').checked) {
         myStandardHandleManager.setTranslateSnapping(parseInt($("#translateSnappingEdit").val()));
     }
     else {
         myStandardHandleManager.setTranslateSnapping(0);
+    }
+}
+
+
+function toggleEnableRotateSnapping() {
+    if (document.getElementById('rotatesnapcheck').checked) {
+        myStandardHandleManager.setRotateSnapping(parseInt($("#rotateSnappingEdit").val()));
+    }
+    else {
+        myStandardHandleManager.setRotateSnapping(0);
     }
 }

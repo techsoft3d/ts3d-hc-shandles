@@ -8,6 +8,7 @@ export class StandardHandleManager {
     constructor(viewer) {
         this._viewer = viewer;
         this._translateSnapping = 0;
+        this._rotateSnapping = 0;
         this._undoManager = new UndoManager(viewer);
         this._handles = [];
         this._undoManager = new UndoManager(viewer);
@@ -139,6 +140,29 @@ export class StandardHandleManager {
                 position = faceEntity.getBounding().center().copy();
             }
             let rotation = utility.ComputeVectorToVectorRotationMatrix(new Communicator.Point3(1, 0, 0), axis);
+            let matrix = this._viewer.model.getNodeNetMatrix(nodeId);
+
+            let row1 = new Communicator.Point3(matrix.m[0], matrix.m[1], matrix.m[2]).normalize();
+            let row2 = new Communicator.Point3(matrix.m[4], matrix.m[5], matrix.m[6]).normalize();
+            let row3 = new Communicator.Point3(matrix.m[8], matrix.m[9], matrix.m[10]).normalize();
+
+            let normalizedMatrix = new Communicator.Matrix();
+
+            normalizedMatrix.m[0] = row1.x;
+            normalizedMatrix.m[1] = row1.y;
+            normalizedMatrix.m[2] = row1.z;
+
+            normalizedMatrix.m[4] = row2.x;
+            normalizedMatrix.m[5] = row2.y;
+            normalizedMatrix.m[6] = row2.z;
+
+            normalizedMatrix.m[8] = row3.x;
+            normalizedMatrix.m[9] = row3.y;
+            normalizedMatrix.m[10] = row3.z;          
+            let matinv = Communicator.Matrix.inverse(normalizedMatrix);
+
+            rotation = Communicator.Matrix.multiply(rotation, matinv);
+
             return { position: position, rotation: rotation };
         }
     }
@@ -160,9 +184,11 @@ export class StandardHandleManager {
 
     setTranslateSnapping(snapping) {
         this._translateSnapping = snapping;
-    }
+    }    
 
-    
+    setRotateSnapping(snapping) {
+        this._rotateSnapping = snapping;
+    }    
 }
 
 StandardHandleManager.overlayIndex = 7;

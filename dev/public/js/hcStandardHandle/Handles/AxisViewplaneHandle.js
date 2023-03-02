@@ -52,7 +52,10 @@ export class AxisViewplaneHandle extends StandardHandle {
         cameraplane.intersectsRay(ray2, intersectionPoint2);
   
         let angle = utility.signedAngleFromPoint(intersectionPoint2, intersectionPoint1, cameraplane.normal,this._group._targetCenter);
-      
+
+        if (this._group.getManager()._rotateSnapping) {
+            angle = Math.round(angle/this._group.getManager()._rotateSnapping) * this._group.getManager()._rotateSnapping;
+        }
         for (let i = 0; i < this._startTargetMatrices.length; i++) {
 
             let vec2 = utility.rotateNormal(Communicator.Matrix.inverse(viewer.model.getNodeNetMatrix(hwv.model.getNodeParent(this._group._targetNodes[i]))),cameraplane.normal);

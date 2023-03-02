@@ -109,7 +109,7 @@ export class StandardHandleGroup {
         }
 
         if (this._extraRotation) {
-            normalizedMatrix =this._extraRotation;
+            normalizedMatrix = Communicator.Matrix.multiply(this._extraRotation, normalizedMatrix);
         }
        
         return normalizedMatrix;
