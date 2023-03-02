@@ -1,48 +1,26 @@
-var myLayout;
-
-var myPartialExplode;
-var mySpriteManager;
-var myHeatMap;
-var myClippingBox;
-var myScaleHandles;
-var myDrawingManipulator;
-var myMoveOnFloorOperator;
-var myFloorGrid;
-var mySelectionBasket;
-var myMaterialTool;
-var myPartArranger;
-var handlePlacementOperator;
-var navcube;
-
-var myCurveSequence;
-
-var contextMenu;
 var myStandardHandleManager = null;
+var relative = true;
+var useSelectionPosition = false;
 
 async function msready() {
     myStandardHandleManager = new shandle.StandardHandleManager(hwv);
-    let myStandardHandleOperator = new shandle.StandardHandleOperator(hwv,myStandardHandleManager);
-    let  StandardHandleOperatorHandle = hwv.operatorManager.registerCustomOperator(myStandardHandleOperator);
-     hwv.operatorManager.push(StandardHandleOperatorHandle);
+    let myStandardHandleOperator = new shandle.StandardHandleOperator(hwv, myStandardHandleManager);
+    let StandardHandleOperatorHandle = hwv.operatorManager.registerCustomOperator(myStandardHandleOperator);
+    hwv.operatorManager.push(StandardHandleOperatorHandle);
 
-     hwv.selectionManager.setSelectionFilter(function (nodeid) {
+    hwv.selectionManager.setSelectionFilter(function (nodeid) {
         return nodeid;
     });
-    
+
 }
 
-function continousCheck() {
-    hcCurveToolkit.CurveManager.continousControlPoints =  document.getElementById('continuouscheck').checked;
-}
-
-function startup()
-{
+function startup() {
     createUILayout();
-} 
+}
 
 function createUILayout() {
 
-    var config = {
+    let config = {
         settings: {
             showPopoutIcon: false,
             showMaximiseIcon: true,
@@ -73,16 +51,14 @@ function createUILayout() {
                                 isClosable: true,
                                 height: 15,
                                 componentState: { label: 'C' }
-                            }                                                   
+                            }
                         ]
-                    },                  
+                    },
                 ],
             }]
     };
 
-
-
-    myLayout = new GoldenLayout(config);
+    let myLayout = new GoldenLayout(config);
     myLayout.registerComponent('Viewer', function (container, componentState) {
         $(container.getElement()).append($("#content"));
     });
@@ -91,12 +67,12 @@ function createUILayout() {
         $(container.getElement()).append($("#settingsdiv"));
     });
 
-   
+
 
     myLayout.on('stateChanged', function () {
         if (hwv != null) {
             hwv.resizeCanvas();
-          
+
         }
     });
     myLayout.init();
@@ -106,9 +82,9 @@ function createUILayout() {
 function gatherSelection() {
     let nodeids = [];
     let sels = hwv.selectionManager.getResults();
-                
+
     for (let i = 0; i < sels.length; i++) {
-        nodeids.push(sels[i].getNodeId());                            
+        nodeids.push(sels[i].getNodeId());
     }
     return nodeids;
 }
@@ -139,20 +115,17 @@ async function addHandles(handleGroup) {
         let sel = hwv.selectionManager.getFirst();
         let result = await myStandardHandleManager.positionFromSelection(sel);
         if (result) {
-            myStandardHandleManager.add(handleGroup,gatherSelection(),result.position, result.rotation);
+            myStandardHandleManager.add(handleGroup, gatherSelection(), result.position, result.rotation);
         }
         else {
-            myStandardHandleManager.add(handleGroup,gatherSelection());
+            myStandardHandleManager.add(handleGroup, gatherSelection());
         }
     }
     else {
-        myStandardHandleManager.add(handleGroup,gatherSelection());
+        myStandardHandleManager.add(handleGroup, gatherSelection());
     }
 
 }
-
-var relative = true;
-var useSelectionPosition = false;
 
 async function toggleRelative() {
 
