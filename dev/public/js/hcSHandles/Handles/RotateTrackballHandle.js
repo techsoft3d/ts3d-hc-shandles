@@ -3,7 +3,7 @@ import Quaternion from '../quaternion.min.js';
 import * as utility from '../utility.js';
 
 
-export class AxisTrackballHandle extends StandardHandle {
+export class RotateTrackballHandle extends StandardHandle {
     constructor(group,color,opacity) {
         super(group);
         this._type = handleType.axisTrackball;

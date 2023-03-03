@@ -1,4 +1,5 @@
 import { UndoManager,RotateUndo  } from './UndoManager.js';
+import { SHandleOperator  } from './SHandleOperator.js';
 
 import * as utility from './utility.js';
 
@@ -38,6 +39,16 @@ export class SHandleManager {
         this._viewer.overlayManager.setViewport(
             SHandleManager.overlayIndex, Communicator.OverlayAnchor.UpperLeftCorner, 0, Communicator.OverlayUnit.ProportionOfCanvas, 0, Communicator.OverlayUnit.ProportionOfCanvas,
             1, Communicator.OverlayUnit.ProportionOfCanvas, 1, Communicator.OverlayUnit.ProportionOfCanvas);
+
+        this._viewer.overlayManager.setCamera(
+            SHandleManager.overlayIndex,
+            this._viewer.view.getCamera(),
+        );            
+
+        let mySHandleOperator = new SHandleOperator(this._viewer, this);
+        let SHandleOperatorHandle = hwv.operatorManager.registerCustomOperator(mySHandleOperator);
+        this._viewer.operatorManager.push(SHandleOperatorHandle);
+        
     }
 
 

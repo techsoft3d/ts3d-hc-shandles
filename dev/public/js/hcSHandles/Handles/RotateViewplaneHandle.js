@@ -2,7 +2,7 @@ import { StandardHandle, handleType } from './StandardHandle.js';
 import * as utility from '../utility.js';
 
 
-export class AxisViewplaneHandle extends StandardHandle {
+export class RotateViewplaneHandle extends StandardHandle {
     constructor(group, color) {
         super(group);
         this._type = handleType.axisViewplane;

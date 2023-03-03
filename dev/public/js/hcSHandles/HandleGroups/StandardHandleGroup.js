@@ -1,7 +1,7 @@
 export class StandardHandleGroup {
-    constructor(viewer, manager) {
-        this._viewer = viewer;
+    constructor(manager) {
         this._manager = manager;
+        this._viewer = manager._viewer;
         this._handles = [];
         this._targetNodes = null;
         this._relative = true;

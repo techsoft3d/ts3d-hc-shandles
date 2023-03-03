@@ -29,26 +29,37 @@ For questions/feedback please post in our [forum](https://forum.techsoft3d.com/)
 The public github project can be found here:  
 https://github.com/techsoft3d/ts3d-hc-shandles
 
+If you are planning to fork the project and make changes to the core library make sure to run `npm install` in the root folder to install required dependencies.
 
-## Install
+## Demo
+
+For an online demo of this library leveraging the HOOPS Communicator 3D Sandbox please see [here](todo). There is also a demo available as part of this project you can run directly from the dev/public folder (e.g via Live Server): http://127.0.0.1:5500/dev/public/viewer.html?scs=models/microengine.scs. 
+
+
+
+## Install & Initialization
 
 * Clone above GitHub project (libraries can be found in the ./dist folder)
 * Add library to your application with a script tag or use module version
 ```
 <script src="./js/hcSHandles.min.js"></script>
 ```
-If you are planning to fork the project and make changes to the core library make sure to run `npm install` in the root folder to install required dependencies.
 
-
-
-## Demo
-
-For a live 3D Sandbox demo of the this library please see [here](todo). There is also a demo available as part of this project you can run directly from the dev/public folder (http://127.0.0.1:5500/dev/public/viewer.html?scs=models/microengine.scs). 
-
-
+Create a new SHandleManager Object **after** the modelStructureReady event has been fired:
+```
+var mySHandleManager = new shandles.SHandleManager(hwv);
+```
 
 ## Usage
-ToDO
+### Adding Handles
+To add handles to a model, simply create one of the three handle groups (translate, rotate, scale) and add it to the SHandleManager:
+```
+await mySHandleManager.remove();  //remove existing handles
+let handleGroup = new shandles.RotateHandleGroup(mySHandleManager);
+//let handleGroup = new shandles.ScaleHandleGroup(mySHandleManager);
+//let handleGroup = new shandles.TranslateHandleGroup(mySHandleManager);
+mySHandleManager.add(handleGroup, [nodeid1,nodeid2,...]);
+```
 
 
 

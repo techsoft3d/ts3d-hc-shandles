@@ -4,8 +4,8 @@ import { ScaleAllHandle } from '../Handles/ScaleAllHandle.js';
 
 
 export class ScaleHandleGroup extends StandardHandleGroup {
-    constructor(viewer, manager) {
-        super(viewer, manager);
+    constructor(manager) {
+        super(manager);
     }
   
     async show(nodeids, center = null, rotation = null) {

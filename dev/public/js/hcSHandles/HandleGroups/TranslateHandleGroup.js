@@ -5,8 +5,8 @@ import { TranslateViewplaneHandle } from '../Handles/TranslateViewplaneHandle.js
 
 
 export class TranslateHandleGroup extends StandardHandleGroup {
-    constructor(viewer, manager) {
-        super(viewer, manager);
+    constructor(manager) {
+        super(manager);
     }
   
     async show(nodeids, center = null, rotation = null) {

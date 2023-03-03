@@ -4,9 +4,6 @@ var useSelectionPosition = false;
 
 async function msready() {
     mySHandleManager = new shandles.SHandleManager(hwv);
-    let mySHandleOperator = new shandles.SHandleOperator(hwv, mySHandleManager);
-    let SHandleOperatorHandle = hwv.operatorManager.registerCustomOperator(mySHandleOperator);
-    hwv.operatorManager.push(SHandleOperatorHandle);
 
     hwv.selectionManager.setSelectionFilter(function (nodeid) {
         return nodeid;
@@ -90,21 +87,21 @@ function gatherSelection() {
 }
 
 
-async function showAxisHandlesFromSelection() {
+async function showRotateHandlesFromSelection() {
     let offaxismatrix = new Communicator.Matrix();
     Communicator.Util.computeOffaxisRotation(new Communicator.Point3(0, 0, 1), 45, offaxismatrix);
-    let handleGroup = new shandles.AxisHandleGroup(hwv, mySHandleManager);
+    let handleGroup = new shandles.RotateHandleGroup(mySHandleManager);
     addHandles(handleGroup);
 }
 
 
 async function showTranslateHandlesFromSelection() {
-    let handleGroup = new shandles.TranslateHandleGroup(hwv, mySHandleManager);
+    let handleGroup = new shandles.TranslateHandleGroup(mySHandleManager);
     addHandles(handleGroup);
 }
 
 async function showScaleHandlesFromSelection() {
-    let handleGroup = new shandles.ScaleHandleGroup(hwv, mySHandleManager);
+    let handleGroup = new shandles.ScaleHandleGroup(mySHandleManager);
     addHandles(handleGroup);
 }
 
