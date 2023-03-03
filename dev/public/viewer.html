@@ -1206,7 +1206,8 @@
       <input type="checkbox" id="translatesnapcheck" onclick="toggleEnableTranslateSnapping()">Enable Translate Snap
       <input type="text" id="translateSnappingEdit" onchange="toggleEnableTranslateSnapping()" style="width:50px;" value="10"><br>
       <input type="checkbox" id="rotatesnapcheck" onclick="toggleEnableRotateSnapping()">Enable Rotate Snap
-      <input type="text" id="rotateSnappingEdit"  style="width:50px;" value="30">
+      <input type="text" id="rotateSnappingEdit" onchange="toggleEnableRotateSnapping()" style="width:50px;" value="30"><br>
+      <span style="margin-left:5px;">Handle Size:</span><input onchange="handleScaleEditChange()" type="text" id="handleScaleEdit"  style="width:30px;" value="1">
       <h1>Insert Handles</h1>
       <input type="button" class="button-4" id="lockplanebutton" onclick='showRotateHandlesFromSelection()' value="Rotate">
       <input type="button" class="button-4" id="lockplanebutton" onclick='showTranslateHandlesFromSelection()' value="Translate">

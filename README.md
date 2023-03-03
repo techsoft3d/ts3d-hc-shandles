@@ -1,5 +1,8 @@
 # SHandles - Alternative Geometry Handles for HOOPS Communicator (BETA)
 
+## Version Update (0.5.1) 
+* Touch Support
+* Handle Resize Support
 
 ## Overview
 
@@ -22,7 +25,6 @@ For questions/feedback please post in our [forum](https://forum.techsoft3d.com/)
 
 * Snapping is currently not supported for trackball rotate and scale handles. This should be adressed in a future update
 * Right now the handle functionality is not easily extendable (e.g. to change look & feel, add new handle types or handle groups, etc.). More extensive support for customization will be added in a future update.
-* Touch support will be added in a future update.
 * Improved Documentation
 
 ## GitHub Project

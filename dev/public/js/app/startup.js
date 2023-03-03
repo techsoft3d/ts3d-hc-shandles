@@ -166,3 +166,8 @@ function toggleEnableRotateSnapping() {
         mySHandleManager.setRotateSnapping(0);
     }
 }
+
+
+function handleScaleEditChange() {
+    mySHandleManager.setHandleScale(parseFloat($("#handleScaleEdit").val()));
+}
