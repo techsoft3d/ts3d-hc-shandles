@@ -1,4 +1,4 @@
-# SHandles - Alternative Handles for HOOPS Communicator (BETA)
+# SHandles - Alternative Geometry Handles for HOOPS Communicator (BETA)
 
 
 ## Overview
@@ -13,7 +13,7 @@
 * Support for Snapping
 * Support for Undo/Redo
 
-The project is a work-in-progress so expect more features to be added in the future.
+The project is work-in-progress so expect more features to be added in the future.
 
 For questions/feedback please post in our [forum](https://forum.techsoft3d.com/) or send an email to guido@techsoft3d.com. To learn more about the HOOPS Web Platform and for a 60 day trial go to https://www.techsoft3d.com/products/hoops/web-platform.
 
@@ -25,18 +25,16 @@ For questions/feedback please post in our [forum](https://forum.techsoft3d.com/)
 * Touch support will be added in a future update.
 * Improved Documentation
 
-
 ## GitHub Project
 
 The public github project can be found here:  
 https://github.com/techsoft3d/ts3d-hc-shandles
 
-If you are planning to fork the project and make changes to the core library make sure to run `npm install` in the root folder to install required dependencies.
+If you are planning to fork the project and make changes make sure to run `npm install` in the root folder to install required dependencies.
 
 ## Demo
 
-For an online demo of this library leveraging the HOOPS Communicator 3D Sandbox please see [here](todo). There is also a demo available as part of this project you can run directly from the dev/public folder (e.g via Live Server): http://127.0.0.1:5500/dev/public/viewer.html?scs=models/microengine.scs. 
-
+For an online demo leveraging the HOOPS Communicator 3D Sandbox please see [here](https://3dsandbox.techsoft3d.com/?snippet=2KahUOzbZNj1RAcXB3MXHF). There is also a local demo available as part of this project you can run directly from the `dev/public` folder (e.g via Live Server): http://127.0.0.1:5500/dev/public/viewer.html?scs=models/microengine.scs. 
 
 
 ## Install & Initialization
