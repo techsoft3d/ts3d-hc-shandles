@@ -1,13 +1,27 @@
-# SHandles - Alternative Handles for HOOPS Communicator
+# SHandles - Alternative Handles for HOOPS Communicator (BETA)
 
 
 ## Overview
-ToDO
+
+ SHandles is a set of classes that provides alternative handles for HOOPS Communicator based applications that work similar to handles found in Blender/Unity/etc. In addition the library provides a few other features not found in the standard HOOPS Communicator handles. See the list of features below for more details. 
+
+
+* Functionality similar to handles found in Blender/Unity/etc.
+* Trackball Rotate and Scale handles
+* Out-of-the-box support for relative transformations
+* Support for attaching handles to a face/edge
+* Support for Snapping
+* Support for Undo/Redo
+
 
 For questions/feedback please post in our [forum](https://forum.techsoft3d.com/) or send an email to guido@techsoft3d.com. To learn more about the HOOPS Web Platform and for a 60 day trial go to https://www.techsoft3d.com/products/hoops/web-platform.
 
 
 ## Limitations and Future Work
+
+* Snapping is currently not supported for trackball rotate and scale handles. This should be adressed in a future update
+* Right now the handle functionality is not easily extendable (e.g. to change look & feel and add new handle types). More extensive support for customization will be supported in a future update.
+* No touch support
 
 
 ## GitHub Project
