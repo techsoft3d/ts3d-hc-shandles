@@ -41,8 +41,9 @@ export class SHandleOperator extends Communicator.Operator.OperatorBase {
                 this._selectedHandle = handleGroup.getHandle(nodeid);
 
                 this._selectedHandle.handeMouseDown(event, selection);
-            //    this.oldColor = await this._viewer.model.getNodesFaceColor([nodeid]);
+                this.oldColor = [this._selectedHandle._color.copy()];
                 this._viewer.model.setNodesFaceColor([nodeid], new Communicator.Color(255, 255, 0));
+                this.oldNodeId = nodeid;
                 this.isHandled = true;
                 event.setHandled(true);
             }                    
@@ -92,7 +93,7 @@ export class SHandleOperator extends Communicator.Operator.OperatorBase {
     }
 
     async onMouseUp(event) {
-
+        super.onMouseUp(event);
         if (this._selectedHandleGroup) {
             this._viewer.model.setNodesFaceColor([this._selectedHandle._nodeid], this.oldColor[0]);
             this._selectedHandleGroup = null;
@@ -106,7 +107,6 @@ export class SHandleOperator extends Communicator.Operator.OperatorBase {
         if (this._isClick) {
             this._manager.remove();
         }
-        super.onMouseUp(event);
 
 
     }
