@@ -77,6 +77,9 @@ export class TranslateHandle extends StandardHandle {
         
         let pointonline = utility.getClosestPoint(viewer,newpos2, newnormal2, event.getPosition());
 
+        if (!pointonline) {
+            return;
+        }
         let before;
         let after;
         for (let i = 0; i < this._startTargetMatrices.length; i++) {

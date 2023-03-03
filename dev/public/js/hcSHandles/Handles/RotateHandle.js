@@ -104,7 +104,7 @@ export class RotateHandle extends StandardHandle {
         let adist = Math.abs(Communicator.Util.computeAngleBetweenVector(newnormal, cameraplane.normal));
 
         let out = new Communicator.Point3();
-        if (adist > 80 && adist < 100) {
+        if (adist > 85 && adist < 95) {
             out = utility.closestPointOnPlane(rplane, planeIntersection);
         }
         else {

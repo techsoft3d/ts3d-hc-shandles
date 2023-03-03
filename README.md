@@ -3,16 +3,17 @@
 
 ## Overview
 
- SHandles is a set of classes that provides alternative handles for HOOPS Communicator based applications that work similar to handles found in Blender/Unity/etc. In addition the library provides a few other features not found in the standard HOOPS Communicator handles. See the list of features below for more details. 
-
+ SHandles is a set of classes that provides alternative handles for HOOPS Communicator based applications that work similar to handles found in Blender/Unity/etc. In addition the library provides a few other features not found in the standard HOOPS Communicator handles. See the list below for more details. 
 
 * Functionality similar to handles found in Blender/Unity/etc.
 * Trackball Rotate and Scale handles
+* Rotate around view axis
 * Out-of-the-box support for relative transformations
 * Support for attaching handles to a face/edge
 * Support for Snapping
 * Support for Undo/Redo
 
+The project is a work-in-progress so expect more features to be added in the future.
 
 For questions/feedback please post in our [forum](https://forum.techsoft3d.com/) or send an email to guido@techsoft3d.com. To learn more about the HOOPS Web Platform and for a 60 day trial go to https://www.techsoft3d.com/products/hoops/web-platform.
 
@@ -20,8 +21,9 @@ For questions/feedback please post in our [forum](https://forum.techsoft3d.com/)
 ## Limitations and Future Work
 
 * Snapping is currently not supported for trackball rotate and scale handles. This should be adressed in a future update
-* Right now the handle functionality is not easily extendable (e.g. to change look & feel and add new handle types). More extensive support for customization will be supported in a future update.
-* No touch support
+* Right now the handle functionality is not easily extendable (e.g. to change look & feel, add new handle types or handle groups, etc.). More extensive support for customization will be added in a future update.
+* Touch support will be added in a future update.
+* Improved Documentation
 
 
 ## GitHub Project
@@ -45,14 +47,14 @@ For an online demo of this library leveraging the HOOPS Communicator 3D Sandbox 
 <script src="./js/hcSHandles.min.js"></script>
 ```
 
-Create a new SHandleManager Object **after** the modelStructureReady event has been fired:
+Create a new SHandleManager Object **after** the modelStructureReady event has fired:
 ```
 var mySHandleManager = new shandles.SHandleManager(hwv);
 ```
 
 ## Usage
 ### Adding Handles
-To add handles to a model, simply create one of the three handle groups (translate, rotate, scale) and add it to the SHandleManager:
+To add handles to a model, simply create one of the three handle groups (translate, rotate, scale) and add them to the SHandleManager with a list of nodeids the handles should be attached to:
 ```
 await mySHandleManager.remove();  //remove existing handles
 let handleGroup = new shandles.RotateHandleGroup(mySHandleManager);
@@ -61,7 +63,7 @@ let handleGroup = new shandles.RotateHandleGroup(mySHandleManager);
 mySHandleManager.add(handleGroup, [nodeid1,nodeid2,...]);
 ```
 
-
+For advanced usage please refer to the demo code, in particular the code found in `dev/public/js/app/startup.js` which demonstrates how to activate the various handle options, how to attach handles to a face/edge and how to use the undo/redo functionality.
 
 ## Acknowledgments
 ### Library:
@@ -70,9 +72,6 @@ mySHandleManager.add(handleGroup, [nodeid1,nodeid2,...]);
 
 ### Demo:
 * [GoldenLayout](https://golden-layout.com/)
-
-
-
 
 ## Disclaimer
 **This library is not an officially supported part of HOOPS Communicator and provided as-is.**
