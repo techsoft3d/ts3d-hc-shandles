@@ -10,6 +10,7 @@ export class SHandleManager {
         this._viewer = viewer;
         this._translateSnapping = 0;
         this._rotateSnapping = 0;
+        this._handleScale = 1.0;
         this._undoManager = new UndoManager(viewer);
         this._handles = [];
         this._undoManager = new UndoManager(viewer);
@@ -200,6 +201,11 @@ export class SHandleManager {
     setRotateSnapping(snapping) {
         this._rotateSnapping = snapping;
     }    
+
+    setHandleScale(scale) {
+        this._handleScale = scale;
+        this.refreshAll();
+    }   
 }
 
 SHandleManager.overlayIndex = 7;
