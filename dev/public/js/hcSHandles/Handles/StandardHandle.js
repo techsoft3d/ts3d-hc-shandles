@@ -1,4 +1,4 @@
-import { StandardHandleManager } from '../StandardHandleManager.js';
+import { SHandleManager } from '../SHandleManager.js';
 
 export const handleType = {
     axis: 0,
@@ -28,7 +28,7 @@ export class StandardHandle {
         let viewer = this._group.getViewer();
 
         if (this._nodeid) {
-            viewer.overlayManager.addNodes(StandardHandleManager.overlayIndex, [this._nodeid]);
+            viewer.overlayManager.addNodes(SHandleManager.overlayIndex, [this._nodeid]);
             viewer.model.setInstanceModifier(Communicator.InstanceModifier.SuppressCameraScale, [this._nodeid], true);  
             viewer.model.setInstanceModifier(Communicator.InstanceModifier.DoNotLight, [this._nodeid], true); 
             viewer.model.setInstanceModifier(Communicator.InstanceModifier.ExcludeBounding, [this._nodeid], true); 

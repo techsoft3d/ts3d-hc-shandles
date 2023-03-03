@@ -1,4 +1,4 @@
-export class StandardHandleOperator {
+export class SHandleOperator {
     constructor(viewer, manager) {
         this._viewer = viewer;
         this._manager = manager;

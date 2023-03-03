@@ -1,12 +1,12 @@
-var myStandardHandleManager = null;
+var mySHandleManager = null;
 var relative = true;
 var useSelectionPosition = false;
 
 async function msready() {
-    myStandardHandleManager = new shandle.StandardHandleManager(hwv);
-    let myStandardHandleOperator = new shandle.StandardHandleOperator(hwv, myStandardHandleManager);
-    let StandardHandleOperatorHandle = hwv.operatorManager.registerCustomOperator(myStandardHandleOperator);
-    hwv.operatorManager.push(StandardHandleOperatorHandle);
+    mySHandleManager = new shandles.SHandleManager(hwv);
+    let mySHandleOperator = new shandles.SHandleOperator(hwv, mySHandleManager);
+    let SHandleOperatorHandle = hwv.operatorManager.registerCustomOperator(mySHandleOperator);
+    hwv.operatorManager.push(SHandleOperatorHandle);
 
     hwv.selectionManager.setSelectionFilter(function (nodeid) {
         return nodeid;
@@ -93,36 +93,36 @@ function gatherSelection() {
 async function showAxisHandlesFromSelection() {
     let offaxismatrix = new Communicator.Matrix();
     Communicator.Util.computeOffaxisRotation(new Communicator.Point3(0, 0, 1), 45, offaxismatrix);
-    let handleGroup = new shandle.AxisHandleGroup(hwv, myStandardHandleManager);
+    let handleGroup = new shandles.AxisHandleGroup(hwv, mySHandleManager);
     addHandles(handleGroup);
 }
 
 
 async function showTranslateHandlesFromSelection() {
-    let handleGroup = new shandle.TranslateHandleGroup(hwv, myStandardHandleManager);
+    let handleGroup = new shandles.TranslateHandleGroup(hwv, mySHandleManager);
     addHandles(handleGroup);
 }
 
 async function showScaleHandlesFromSelection() {
-    let handleGroup = new shandle.ScaleHandleGroup(hwv, myStandardHandleManager);
+    let handleGroup = new shandles.ScaleHandleGroup(hwv, mySHandleManager);
     addHandles(handleGroup);
 }
 
 async function addHandles(handleGroup) {
-    await myStandardHandleManager.remove();
+    await mySHandleManager.remove();
     handleGroup.setRelative(relative);
     if (useSelectionPosition) {
         let sel = hwv.selectionManager.getFirst();
-        let result = await myStandardHandleManager.positionFromSelection(sel);
+        let result = await mySHandleManager.positionFromSelection(sel);
         if (result) {
-            myStandardHandleManager.add(handleGroup, gatherSelection(), result.position, result.rotation);
+            mySHandleManager.add(handleGroup, gatherSelection(), result.position, result.rotation);
         }
         else {
-            myStandardHandleManager.add(handleGroup, gatherSelection());
+            mySHandleManager.add(handleGroup, gatherSelection());
         }
     }
     else {
-        myStandardHandleManager.add(handleGroup, gatherSelection());
+        mySHandleManager.add(handleGroup, gatherSelection());
     }
 
 }
@@ -130,11 +130,11 @@ async function addHandles(handleGroup) {
 async function toggleRelative() {
 
     relative = document.getElementById('relativecheck').checked;
-    await myStandardHandleManager.setRelative(relative);
+    await mySHandleManager.setRelative(relative);
 }
 
 function refreshHandles() {
-    myStandardHandleManager.refreshAll();
+    mySHandleManager.refreshAll();
 }
 
 
@@ -144,28 +144,28 @@ function toggleUseSelectionPosition() {
 }
 
 function undo() {
-    myStandardHandleManager.undo();
+    mySHandleManager.undo();
 }
 
 
 function redo() {
-    myStandardHandleManager.redo();
+    mySHandleManager.redo();
 }
 function toggleEnableTranslateSnapping() {
     if (document.getElementById('translatesnapcheck').checked) {
-        myStandardHandleManager.setTranslateSnapping(parseInt($("#translateSnappingEdit").val()));
+        mySHandleManager.setTranslateSnapping(parseInt($("#translateSnappingEdit").val()));
     }
     else {
-        myStandardHandleManager.setTranslateSnapping(0);
+        mySHandleManager.setTranslateSnapping(0);
     }
 }
 
 
 function toggleEnableRotateSnapping() {
     if (document.getElementById('rotatesnapcheck').checked) {
-        myStandardHandleManager.setRotateSnapping(parseInt($("#rotateSnappingEdit").val()));
+        mySHandleManager.setRotateSnapping(parseInt($("#rotateSnappingEdit").val()));
     }
     else {
-        myStandardHandleManager.setRotateSnapping(0);
+        mySHandleManager.setRotateSnapping(0);
     }
 }

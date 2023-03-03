@@ -2,7 +2,7 @@ import { UndoManager,RotateUndo  } from './UndoManager.js';
 
 import * as utility from './utility.js';
 
-export class StandardHandleManager {
+export class SHandleManager {
 
   
     constructor(viewer) {
@@ -16,14 +16,14 @@ export class StandardHandleManager {
         var _this = this;
 
         this._viewer.overlayManager.setCamera(
-            StandardHandleManager.overlayIndex,
+            SHandleManager.overlayIndex,
             this._viewer.view.getCamera());
 
 
         this._viewer.setCallbacks({
             camera: function (type, nodeids, mat1, mat2) {
                 _this._viewer.overlayManager.setCamera(
-                    StandardHandleManager.overlayIndex,
+                    SHandleManager.overlayIndex,
                     _this._viewer.view.getCamera(),
                 );
 
@@ -36,7 +36,7 @@ export class StandardHandleManager {
         });
 
         this._viewer.overlayManager.setViewport(
-            StandardHandleManager.overlayIndex, Communicator.OverlayAnchor.UpperLeftCorner, 0, Communicator.OverlayUnit.ProportionOfCanvas, 0, Communicator.OverlayUnit.ProportionOfCanvas,
+            SHandleManager.overlayIndex, Communicator.OverlayAnchor.UpperLeftCorner, 0, Communicator.OverlayUnit.ProportionOfCanvas, 0, Communicator.OverlayUnit.ProportionOfCanvas,
             1, Communicator.OverlayUnit.ProportionOfCanvas, 1, Communicator.OverlayUnit.ProportionOfCanvas);
     }
 
@@ -64,7 +64,7 @@ export class StandardHandleManager {
 
     refreshAll(activeHandle = null) {
         this._viewer.overlayManager.setCamera(
-            StandardHandleManager.overlayIndex,
+            SHandleManager.overlayIndex,
             this._viewer.view.getCamera()
         );
         for (let i = 0; i < this._handles.length; i++) {
@@ -191,5 +191,5 @@ export class StandardHandleManager {
     }    
 }
 
-StandardHandleManager.overlayIndex = 7;
+SHandleManager.overlayIndex = 7;
 
