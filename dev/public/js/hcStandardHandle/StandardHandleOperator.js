@@ -5,6 +5,7 @@ export class StandardHandleOperator {
         this._startmatrix = null;
         this._selectedHandleGroup = null;
         this._isClick = false;
+        this.oldNodeId = null;
 
     }
 
@@ -32,7 +33,7 @@ export class StandardHandleOperator {
                 this._selectedHandle = handleGroup.getHandle(nodeid);
 
                 this._selectedHandle.handeMouseDown(event, selection);
-                this.oldColor = await this._viewer.model.getNodesFaceColor([nodeid]);
+            //    this.oldColor = await this._viewer.model.getNodesFaceColor([nodeid]);
                 this._viewer.model.setNodesFaceColor([nodeid], new Communicator.Color(255, 255, 0));
                 event.setHandled(true);
             }                    
@@ -47,6 +48,35 @@ export class StandardHandleOperator {
             await this._selectedHandle.handeMouseMove(event);
             this._manager.refreshAll(this._selectedHandleGroup);
             event.setHandled(true);
+        }
+        else {
+            if (this.oldNodeId) {
+                this._viewer.model.setNodesFaceColor([this.oldNodeId ], this.oldColor[0]);    
+                this.oldNodeId = null;
+            }
+        
+            let config = new Communicator.PickConfig(Communicator.SelectionMask.Line);
+            config.restrictToOverlays = true;
+            const selection = await this._viewer.view.pickFromPoint(
+                event.getPosition(),
+                config,
+            );
+            if (selection.getPosition()) {            
+
+                //            ViewerUtility.createDebugCube(this._viewer,selection.getPosition(),1,undefined);
+                let nodeid = this._viewer.model.getNodeParent(selection.getNodeId());
+                let topnode = this._viewer.model.getNodeParent(nodeid);
+    
+                let handleGroup = this._manager.getHandleGroup(topnode);
+    
+                if (handleGroup) {
+    
+                    this.oldColor = await this._viewer.model.getNodesFaceColor([nodeid]);
+                    this.oldNodeId = nodeid;
+                    this._viewer.model.setNodesFaceColor([nodeid], new Communicator.Color(255, 255, 0));                  
+                }                    
+            }
+
         }
     }
 
