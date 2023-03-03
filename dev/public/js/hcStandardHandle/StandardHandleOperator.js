@@ -87,9 +87,15 @@ export class StandardHandleOperator {
             this._selectedHandleGroup = null;
         }
 
+        if (this.oldNodeId) {
+            this._viewer.model.setNodesFaceColor([this.oldNodeId ], this.oldColor[0]);    
+            this.oldNodeId = null;
+        }
+
         if (this._isClick) {
             this._manager.remove();
         }
+      
 
     }
 }
