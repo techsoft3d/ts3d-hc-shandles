@@ -57,7 +57,7 @@ export class ScaleHandle extends StandardHandle {
     }
 
 
-   async handeMouseMove(event) {
+   async handleMouseMove(event) {
         let viewer = this._group.getViewer();
     
         let newpos2 = new Communicator.Point3(0,0,0);
@@ -117,5 +117,7 @@ export class ScaleHandle extends StandardHandle {
             viewer.model.setNodeMatrix(this._group._targetNodes[i], resmatrix3);
 
         }
+        super.handleMouseMove(event);
+
     }
 }

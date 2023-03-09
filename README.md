@@ -1,5 +1,8 @@
 # SHandles - Alternative Geometry Handles for HOOPS Communicator (BETA)
 
+## Version Update (0.5.3) 
+* registerEventReceiver function added on SHandleManager
+
 ## Version Update (0.5.1) 
 * Touch Support
 * Handle Resize Support

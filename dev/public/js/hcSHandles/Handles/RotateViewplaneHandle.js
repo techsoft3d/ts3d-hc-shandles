@@ -39,7 +39,7 @@ export class RotateViewplaneHandle extends StandardHandle {
         viewer.model.setInstanceModifier(Communicator.InstanceModifier.ScreenOriented, [this._nodeid], true);
     }
 
-    async handeMouseMove(event) {
+    async handleMouseMove(event) {
         let viewer = this._group.getViewer();
         let cameraplane = utility.getCameraPlane(viewer,this._startPosition);
 
@@ -68,7 +68,9 @@ export class RotateViewplaneHandle extends StandardHandle {
             viewer.model.setNodeMatrix(this._group._targetNodes[i], utility.performSubnodeRotation(center,this._startTargetMatrices[i],offaxismatrix));
         }
 
-        this._group.updateHandle();           
+        this._group.updateHandle();  
+        super.handleMouseMove(event);
+         
     }
 
 }
