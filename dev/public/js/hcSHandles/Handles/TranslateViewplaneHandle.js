@@ -27,7 +27,7 @@ export class TranslateViewplaneHandle extends StandardHandle {
         await super.show();
     }
 
-    async handeMouseMove(event) {
+    async handleMouseMove(event) {
         let viewer = this._group.getViewer();
 
         let cameraplane = utility.getCameraPlane(viewer,this._startPosition);              
@@ -76,7 +76,7 @@ export class TranslateViewplaneHandle extends StandardHandle {
         this._group._targetCenter = viewer.model.getNodeNetMatrix(this._group._targetNodes[0]).transform(this._group._targetCenterLocal);        
 
         this._group.updateHandle();
-
+        super.handleMouseMove(event);
     }
 
 }

@@ -16,6 +16,7 @@ export class SHandleManager {
         this._undoManager = new UndoManager(viewer);
         this._handlenode = this._viewer.model.createNode(this._viewer.model.getRootNode(), "advancedHandles");
         var _this = this;
+        this._eventReceivers = [];
 
         this._viewer.overlayManager.setCamera(
             SHandleManager.overlayIndex,
@@ -52,6 +53,17 @@ export class SHandleManager {
         
     }
 
+    registerEventReceiver(receiver) {
+        this._eventReceivers.push(receiver);
+    }
+
+    transmitEvent(nodeids) {
+        for (let i=0;i<this._eventReceivers.length;i++)
+        {
+            (this._eventReceivers[i])(nodeids);
+        }
+
+    }
 
     async add(handleGroup, nodeid, center = null, rotation = null) {
         this._handles.push(handleGroup);

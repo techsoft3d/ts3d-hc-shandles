@@ -87,7 +87,7 @@ export class RotateHandle extends StandardHandle {
         await viewer.model.setNodeMatrix(this._nodeid, resmatrix);
     }    
 
-    async handeMouseMove(event) {
+    async handleMouseMove(event) {
         let viewer = this._group.getViewer();
         let newpos = new Communicator.Point3(0,0,0);
         let newnormal = new Communicator.Point3(0,0,1);
@@ -132,7 +132,7 @@ export class RotateHandle extends StandardHandle {
         }
 
         this._group.updateHandle();
-
+        super.handleMouseMove(event);
     }
 
 }

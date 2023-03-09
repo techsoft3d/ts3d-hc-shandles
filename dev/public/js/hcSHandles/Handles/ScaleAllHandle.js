@@ -30,7 +30,7 @@ export class ScaleAllHandle extends StandardHandle {
     }
 
 
-   async handeMouseMove(event) {
+   async handleMouseMove(event) {
         let viewer = this._group.getViewer();
 
         let width = $(hwv.getViewElement()).width();
@@ -53,5 +53,7 @@ export class ScaleAllHandle extends StandardHandle {
             viewer.model.setNodeMatrix(this._group._targetNodes[i], resmatrix3);
 
         }
+        super.handleMouseMove(event);
+
     }
 }

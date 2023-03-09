@@ -31,7 +31,7 @@ export class RotateTrackballHandle extends StandardHandle {
         await super.show();
     }
 
-    async handeMouseMove(event) {
+    async handleMouseMove(event) {
         let viewer = this._group.getViewer();
         let config = new Communicator.PickConfig(Communicator.SelectionMask.Line);
         config.restrictToOverlays = true;
@@ -60,6 +60,8 @@ export class RotateTrackballHandle extends StandardHandle {
             }
 
             this._group.updateHandle();
+            super.handleMouseMove(event);
+
         }
     }
 

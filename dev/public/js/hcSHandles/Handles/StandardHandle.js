@@ -43,7 +43,7 @@ export class StandardHandle {
 
     }
 
-    async handeMouseDown(event, selection) {
+    async handleMouseDown(event, selection) {
         let viewer = this._group.getViewer();
         this._startmatrix = await viewer.model.getNodeNetMatrix(this._nodeid);
         this._startTargetMatrices = [];
@@ -55,8 +55,9 @@ export class StandardHandle {
         this._startPosition2D = event.getPosition();
     }
 
-    async handeMouseMove(event) {
-
+    async handleMouseMove(event) {
+        await this._group.getManager().transmitEvent(this._group._targetNodes);
     }
+         
 
 }
