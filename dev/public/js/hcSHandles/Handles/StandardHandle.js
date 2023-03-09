@@ -32,6 +32,7 @@ export class StandardHandle {
             viewer.model.setInstanceModifier(Communicator.InstanceModifier.SuppressCameraScale, [this._nodeid], true);  
             viewer.model.setInstanceModifier(Communicator.InstanceModifier.DoNotLight, [this._nodeid], true); 
             viewer.model.setInstanceModifier(Communicator.InstanceModifier.ExcludeBounding, [this._nodeid], true); 
+            viewer.model.setInstanceModifier(Communicator.InstanceModifier.IgnoreCutting, [this._nodeid], true); 
         }
     }
 
