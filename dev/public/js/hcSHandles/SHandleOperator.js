@@ -67,7 +67,7 @@ export class SHandleOperator extends Communicator.Operator.OperatorBase {
                 this.oldNodeId = null;
             }
         
-            let config = new Communicator.PickConfig(Communicator.SelectionMask.Line);
+            let config = new Communicator.PickConfig();
             config.restrictToOverlays = true;
             const selection = await this._viewer.view.pickFromPoint(
                 event.getPosition(),
