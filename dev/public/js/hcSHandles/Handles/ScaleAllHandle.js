@@ -35,7 +35,13 @@ export class ScaleAllHandle extends StandardHandle {
 
         let width = $(hwv.getViewElement()).width();
         let d = event.getPosition().x - this._startPosition2D.x;
+        
         d/=width/3;
+
+        if (1+d<0.2) {
+            return;
+        }
+
        
         for (let i = 0; i < this._startTargetMatrices.length; i++) {
     
@@ -50,6 +56,7 @@ export class ScaleAllHandle extends StandardHandle {
             let resmatrix2 = Communicator.Matrix.multiply(resmatrix1, tmatrix);
             let resmatrix3 = Communicator.Matrix.multiply(resmatrix2,this._startTargetMatrices[i]);
 
+            
             viewer.model.setNodeMatrix(this._group._targetNodes[i], resmatrix3);
 
         }

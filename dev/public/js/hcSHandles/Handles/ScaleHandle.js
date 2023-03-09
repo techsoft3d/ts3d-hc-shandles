@@ -74,18 +74,16 @@ export class ScaleHandle extends StandardHandle {
         if (plane.determineSide(pointonline))
         {
             d = delta.length()/delta1/2;
+           
         }
         else {
             d = -delta.length()/delta1/2;
-            if (d<=-0.95) {
+            if (d<=-0.90) {
                 return;
             }
 
         }
-
-        let smat = new Communicator.Matrix();    
-        smat.setScaleComponent(1+newnormal2.x*d,1+newnormal2.y*d,1+newnormal2.z*d);
-
+    
         for (let i = 0; i < this._startTargetMatrices.length; i++) {
 
             let newnormal3;
@@ -102,7 +100,6 @@ export class ScaleHandle extends StandardHandle {
                 let resmatrix2 = Communicator.Matrix.multiply(resmatrix1, tmatrix);
                 resmatrix3 = Communicator.Matrix.multiply(resmatrix2,this._startTargetMatrices[i]);
 
-
             }
             else {
                 newnormal3 = utility.rotateNormal(viewer.model.getNodeNetMatrix(this._nodeid),new Communicator.Point3(0,0,1));
@@ -112,8 +109,9 @@ export class ScaleHandle extends StandardHandle {
                 let resmatrix1 = Communicator.Matrix.multiply(Communicator.Matrix.inverse(tmatrix),smat);
                 let resmatrix2 = Communicator.Matrix.multiply(resmatrix1, tmatrix);
                 resmatrix3 = Communicator.Matrix.multiply(this._startTargetMatrices[i],resmatrix2);
-            }           
-
+            }     
+            
+    
             viewer.model.setNodeMatrix(this._group._targetNodes[i], resmatrix3);
 
         }
